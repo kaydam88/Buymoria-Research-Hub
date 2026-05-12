@@ -1,3 +1,6 @@
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Status](https://img.shields.io/badge/Status-Active-blue)
+![Focus](https://img.shields.io/badge/Focus-Data%20%26%20Research%20Analysis-orange)
 # Buymoria Research Hub
 
 … WE DO MORE
