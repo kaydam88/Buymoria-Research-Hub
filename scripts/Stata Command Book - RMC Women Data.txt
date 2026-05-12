@@ -1,0 +1,1360 @@
+1.5 Research Objectives
+The primary objective of this research is to examine the status of Respectful Maternity Care in Osun State, Southwest Nigeria, its role as a predictor of women's choice of maternal care and pregnancy outcomes as well as the potential strategies to improve the readiness for change to RMC in Osun State
+ Specific objectives include:
+1.To determine the current level of knowledge of healthcare providers regarding Respectful Maternity Care in Osun State, Nigeria
+2.To determine the current status of RMC practices among healthcare providers in Osun State, Southwest Nigeria.
+3.To explore the perceptions of women about RMC during childbirth in Osun State.
+4.To determine the proportion of women experiencing respectful maternity care (RMC) during childbirth in Osun State
+5.To identify factors influencing the practice of RMC among healthcare providers in Osun State.
+6.To determine the factors influencing women's choice of maternal care in the region.
+7.To evaluate the organizational and individual readiness for change to RMC in the study location. 
+8.To identify potential strategies to improve the readiness for a change to RMC practice in Osun State.
+
+
+
+1.6 Research Hypotheses
+1. Null Hypotheses (H0):
+H0: The status of Respectful Maternity Care has no significant influence on the choice of maternal care among women in Southwest Nigeria.
+H0: The status of Respectful Maternity Care has no significant effect on pregnancy outcomes among women in Southwest Nigeria.
+Ho: The level of knowledge of health care providers on RMC has no significant influence on the status of respectful maternity care in Osun State Nigeria
+Ho:  Individual healthcare provider’s readiness for change to RMC practices has no significant influence on the status of RMC in Osun State, Nigeria.
+Ho:  Organizational readiness for change to RMC practices has no significant influence on the status of RMC in Osun State, Nigeria
+Ho; The socio-demographic status of women has no significant influence on the maternal perception of D&A during childbirth among women in Osun State
+
+************
+
+log using "cleaningdata.log", replace
+
+Perfect, Fehintola! Here's a **set of verified and ready-to-use Stata commands** you can run for **basic data cleaning** in Stata 15. These will help you inspect, clean, and prepare your dataset for analysis:
+
+---
+
+### 📌 **1. Get a quick overview of the data**
+
+```stata
+describe
+summarize
+codebook
+```
+
+---
+
+### 📌 **2. Identify missing values**
+
+```stata
+misstable summarize
+misstable patterns
+```
+
+---
+
+### 📌 **3. Drop observations with missing key variables**
+
+*(replace `var1` and `var2` with your important variables)*
+
+```stata
+drop if missing(var1, var2)
+```
+
+---
+
+### 📌 **4. Remove duplicate observations**
+
+*(based on all variables or specific ID variables)*
+
+```stata
+duplicates report
+duplicates list
+duplicates drop
+```
+
+Or to drop based on ID:
+
+```stata
+duplicates drop idvar, force
+```
+
+---
+
+### 📌 **5. Check for outliers or extreme values**
+
+```stata
+summarize varname, detail
+```
+
+You can flag or drop outliers based on percentile thresholds:
+
+```stata
+gen outlier = (varname < r(p1) | varname > r(p99))
+```
+
+---
+
+### 📌 **6. Rename variables for clarity (optional)**
+
+```stata
+rename oldvarname newvarname
+```
+
+---
+
+### 📌 **7. Recode categorical variables (if needed)**
+
+```stata
+recode gender (1=0 "Male") (2=1 "Female"), gen(female)
+```
+
+---
+
+### 📌 **8. Label variables and values (for better output)**
+
+```stata
+label variable age "Respondent's age"
+label define yesno 0 "No" 1 "Yes"
+label values consent yesno
+```
+
+---
+
+Great call, Fehintola! Keeping a logbook in Stata is essential for tracking all your commands and output. Here's exactly how to do it:
+
+---
+
+### ✅ **Start a log file**
+
+At the very beginning of your session, run:
+
+```stata
+log using "mylogfile.log", replace
+```
+
+* `"mylogfile.log"` is the name of your log file. You can change it to something like `"cleaning_log_2025.log"` or any name you prefer.
+* `replace` will overwrite the file if it already exists. Use `append` instead if you want to add to an existing log file.
+
+---
+
+### ✅ **Close the log file when you're done**
+
+At the end of your session, close the log with:
+
+```stata
+log close
+```
+
+---
+
+### ✅ **Optional: Save in SMCL (Stata Markup and Control Language) format**
+
+If you want a log that preserves formatting:
+
+```stata
+log using "mylogfile.smcl", replace
+```
+
+---
+
+Great question, Fehintola! Yes, you *can* copy tables manually from Stata, but there are **better, cleaner, and more automated ways** to export your output—especially if you're working with Excel or Word.
+
+---
+
+### ✅ **Best Options for Exporting Tables in Stata 15**
+
+#### 📌 **1. Exporting tables to Excel**
+
+For regression or summary tables:
+
+```stata
+esttab using "results.xlsx", replace excel
+```
+
+For summary stats:
+
+```stata
+estpost summarize var1 var2
+esttab using "summarystats.xlsx", replace excel
+```
+
+> 📌 **Note:** `estpost` and `esttab` come from the **`estout`** package. Install it once with:
+
+```stata
+ssc install estout
+```
+
+---
+
+#### 📌 **2. Exporting tabulation results**
+
+```stata
+tabulate gender education, matcell(freq)
+mat list freq
+putexcel A1=matrix(freq) using "tabs.xlsx", replace
+```
+
+---
+
+#### 📌 **3. Exporting to Word (using `asdoc`)**
+
+Install once:
+
+```stata
+ssc install asdoc
+```
+
+Then export like this:
+
+```stata
+asdoc regress y x1 x2, replace
+```
+
+You’ll get a well-formatted `.doc` file you can open in Word.
+
+---
+
+#### ✅ **Manual copy-paste works too**, but:
+
+* Use the **Results window**, not the **Viewer**.
+* Select, right-click, and choose “Copy Table as Picture” or “Copy as Table”.
+* Pasting into Excel may not preserve column formatting well.
+
+---
+
+Perfect, Fehintola! Now that `estout` is installed, you're ready to export tables cleanly to Excel or other formats.
+
+Here’s a **step-by-step example** of how to:
+
+---
+
+### ✅ **Export summary statistics to Excel**
+
+```stata
+estpost summarize age income education
+esttab using "summarystats.xlsx", replace excel
+```
+
+---
+
+### ✅ **Export regression output to Excel**
+
+```stata
+regress income age education
+esttab using "regression.xlsx", replace excel
+```
+
+---
+
+Would you like to customize the table (e.g. add labels, control decimal places, or include R² and N)?
+
+
+Absolutely, Fehintola! If you want to **keep only observations where age is between 15 and 49 years**, you can use the following command:
+
+---
+
+### ✅ **Keep age between 15 and 49**
+
+```stata
+keep if age >= 15 & age <= 49
+```
+
+---
+
+### 🔍 Optional: To inspect how many were dropped
+
+Before running the `keep` command, you can check how many fall outside the range:
+
+```stata
+tabulate age if age < 15 | age > 49
+```
+
+Or:
+
+```stata
+count if age < 15 | age > 49
+```
+
+---
+gen age_group = .
+replace age_group = 1 if inrange(Age, 15, 19)
+replace age_group = 2 if inrange(Age, 20, 24)
+replace age_group = 3 if inrange(Age, 25, 29)
+replace age_group = 4 if inrange(Age, 30, 34)
+replace age_group = 5 if inrange(Age, 35, 39)
+replace age_group = 6 if inrange(Age, 40, 44)
+replace age_group = 7 if inrange(Age, 45, 49)
+
+label define age_group 1 "15-19" 2 "20-24" 3 "25-29" 4 "30-34" 5 "35-39" 6 "40-44" 7 "45-49"
+label values age_group age_group 
+la var age_group "Age of women_RECODED"
+
+***********
+gen occ_cat = .
+
+* Unemployed (Group 1)
+replace occ_cat = 1 if inlist(lower(A7), "none", "nil", "not applicable", "nothing", "no husband", "non", "unemployment", "don't know")
+replace occ_cat = 1 if inlist(lower(A7), "unemployment", "don't know", "unknown", "late husband", "student", "retiree", "retired civil servant")
+
+
+* Self-employed or Entrepreneur (Group 2)
+replace occ_cat = 2 if inlist(lower(A7), "self", "entrepreneur", "business", "trader", "tailor", "artisan", "mechanic")
+replace occ_cat = 2 if inlist(lower(A7), "barber", "driver", "farmer", "vulganizer", "welder")
+replace occ_cat = 2 if inlist(lower(A7), "tailoring", "fashion", "artisan", "mechanic", "barbing", "okada")
+replace occ_cat = 2 if inlist(lower(A7), "bike", "farmer", "contractor", "dealer", "electrician", "rewiring")
+replace occ_cat = 2 if inlist(lower(A7), "carpenter", "plumber", "shoemaker", "block", "brick", "bread", "furniture")
+replace occ_cat = 2 if inlist(lower(A7), "photograph", "butcher", "sawmiller", "painter", "painting", "trade")
+replace occ_cat = 2 if inlist(lower(A7), "operator", "plan dealer", "waste manager", "slaughter", "wood seller")
+
+
+* Private or Professional (Group 3)
+replace occ_cat = 3 if inlist(lower(A7), "engineer", "accountant", "manager", "clergy")
+
+
+* Civil Servant (Group 4)
+replace occ_cat = 4 if inlist(lower(A7), "civil servant", "government", "local government", "doctor", "lecturer", "teacher", "nurse", "legal")
+
+
+label define occ_cat_lbl 1 "Unemployed" 2 "Self-employed/Entrepreneur" 3 "Private/Professional" 4 "Civil Servant"
+label values occ_cat occ_cat
+la var occ_cat "Husband's Occupation_RECODED"
+
+*
+*Age at First Birth
+ta B1,m
+recode B1 (237=23) (1 2 3 4 5 6 = 12)
+
+gen age_first_birth = .
+replace age_first_birth = 1 if inrange(B1, 1, 19)
+replace age_first_birth = 2 if inrange(B1, 20, 24)
+replace age_first_birth = 3 if inrange(B1, 25, 29)
+replace age_first_birth = 4 if inrange(B1, 30, 34)
+replace age_first_birth = 5 if inrange(B1, 35, 39)
+
+
+label define age_first_birth 1 "15-19" 2 "20-24" 3 "25-29" 4 "30-34" 5 "35-39"
+label values age_first_birth age_firstbirth
+la var age_first_birth "Age at First Birth_RECODED"
+ ----------
+
+*Number of pregnancies ever had 
+
+ta B2,m
+recode B2 (20 26 = 10)
+-
+gen num_pregnancies_had = .
+replace num_pregnancies_had = 1 if (B2==1)
+replace num_pregnancies_had = 2 if inrange(B2, 2, 4)
+replace num_pregnancies_had = 3 if inrange(B2, 5, 7)
+replace num_pregnancies_had = 4 if inrange(B2, 8, 10)
+
+label define num_pregnancies_had 1 "primigravida" 2 "2-4" 3 "5-7" 4 "8-10"
+label values num_pregnancies_had num_pregnancies_had
+la var num_pregnancies_had "Number of pregnancies ever had_RECODED"
+ta num_pregnancies_had,m
+
+**
+gen num_pregnancies_had2 = .
+replace num_pregnancies_had2 = 1 if (B2==1)
+replace num_pregnancies_had2 = 2 if inrange(B2, 2, 10)
+
+
+label define num_pregnancies_had2 1 "primigravida" 2 "multigravida"
+label values num_pregnancies_had2 num_pregnancies_had2
+la var num_pregnancies_had2 "Number of pregnancies ever had_RECODED2"
+ta num_pregnancies_had2,m
+
+
+
+*Number of deliveries ever had 
+
+ta B3,m
+-
+gen num_deliveries_had = .
+replace num_deliveries_had = 1 if (B3==1)
+replace num_deliveries_had = 2 if inrange(B3, 2, 4)
+replace num_deliveries_had = 3 if inrange(B3, 5, 7)
+replace num_deliveries_had = 4 if inrange(B3, 8, 10)
+
+label define num_deliveries_had 1 "primiparous" 2 "2-4" 3 "5-7" 4 "8-10"
+label values num_deliveries_had num_deliveries_had
+la var num_deliveries_had "Number of deliveries ever had_RECODED"
+ta num_deliveries_had,m
+
+
+**
+gen num_deliveries_had2 = .
+replace num_deliveries_had2 = 1 if (B3==1)
+replace num_deliveries_had2 = 2 if inrange(B3, 2, 10)
+
+
+label define num_deliveries_had2 1 "primiparous" 2 "multiparous"
+label values num_deliveries_had2 num_deliveries_had2
+la var num_deliveries_had2 "Number of deliveries ever had_RECODED2"
+ta num_deliveries_had2,m
+
+
+
+*Number of children alive
+ta B4,m
+recode B4 (34 = 4)
+-
+gen num_children_alive = .
+replace num_children_alive = 1 if (B4==0)
+replace num_children_alive = 2 if inrange(B4, 1, 4)
+replace num_children_alive = 3 if inrange(B4, 5, 8)
+
+
+label define num_children_alive 1 "none alive" 2 "1-4" 3 "5-8"
+label values num_children_alive num_children_alive
+la var num_children_alive "Number of children alive_RECODED"
+ta num_children_alive,m
+
+*Reasons for Choice of Place of delivery preceding the last pregnancy 
+This is a classic "multiple response" question where respondents could choose more than one reason, and the responses were stored as a space-separated string of numeric codes (like 1 2 4 6 11 for a single observation).
+
+To clean and work with this type of data in Stata, the goal is to split the responses into separate dummy variables (1 = selected, 0 = not selected) for each possible reason (1 to 14 or so) 
+
+
+gen B6_1 = regexm(B6, "\b1\b")
+gen B6_2 = regexm(B6, "\b2\b")
+gen B6_3 = regexm(B6, "\b3\b")
+gen B6_4 = regexm(B6, "\b4\b")
+gen B6_5 = regexm(B6, "\b5\b")
+gen B6_6 = regexm(B6, "\B6\b")
+gen B6_7 = regexm(B6, "\b7\b")
+gen B6_8 = regexm(B6, "\b8\b")
+gen B6_9 = regexm(B6, "\b9\b")
+gen B6_10 = regexm(B6, "\b10\b")
+gen B6_11 = regexm(B6, "\b11\b")
+gen B6_12 = regexm(B6, "\b12\b")
+gen B6_13 = regexm(B6, "\b13\b")
+
+--
+label variable B61 "Proximity to Healthcare Facilities"
+label variable B62 "Cost of Delivery Services"
+label variable B63 "Cultural Beliefs and Practices"
+label variable B64 "Perceived Quality of Care"
+label variable B65 "Previous Birth Experiences"
+label variable B66 "Availability of Skilled Birth Attendants"
+label variable B67 "Accessibility and Infrastructure"
+label variable B68 "Fear of Medical Interventions"
+label variable B69 "Religious Beliefs"
+label variable B610 "Influence of Family and Community"
+label variable B611 "Trust with Healthcare Providers"
+label variable B612 "Perceived Severity of Labour"
+label variable B613 "Influence of Family and Community"
+label variable B614 "Other (if applicable)"
+
+----
+la def B61 0 "no" 1 "yes"
+la def B62 0 "no" 1 "yes"
+la def B63 0 "no" 1 "yes"
+la def B64 0 "no" 1 "yes"
+la def B65 0 "no" 1 "yes"
+la def B66 0 "no" 1 "yes"
+la def B67 0 "no" 1 "yes"
+la def B68 0 "no" 1 "yes"
+la def B69 0 "no" 1 "yes"
+la def B610 0 "no" 1 "yes"
+la def B611 0 "no" 1 "yes"
+la def B612 0 "no" 1 "yes"
+la def B613 0 "no" 1 "yes"
+la def B614 0 "no" 1 "yes"
+
+--
+recode B61 (.=0)
+recode B62 (.=0)
+recode B63 (.=0)
+recode B64 (.=0)
+recode B65 (.=0)
+recode B66 (.=0)
+recode B67 (.=0)
+recode B68 (.=0)
+recode B69 (.=0)
+recode B610 (.=0)
+recode B611 (.=0)
+recode B612 (.=0)
+recode B613 (.=0)
+recode B614 (.=0)
+
+--
+la val B61 B61
+la val B62 B62
+la val B63 B63
+la val B64 B64
+la val B65 B65
+la val B66 B66
+la val B67 B67
+la val B68 B68
+la val B69 B69
+la val B610 B610
+la val B611 B611
+la val B612 B612
+la val B613 B613
+
+--
+tab1 B61 B62 B63 B64 B65 B66 B67 B68 B69 B610 B611 B612 B613 B14
+
+-
+Number of times ever delivered in health facility
+ta B8,m
+replace B8 = . if (B7==2)
+recode B8 (33 = 3) (. = 99)
+la def B8 99 "Never delievered in health facility"
+la val B8 B8
+ta B8,m
+-
+
+Birth Order of the Last Child     
+ta B9,m
+recode B9 (2022 = 0)
+
+gen Birth_order = .
+replace Birth_order = 0 if (B9==0)
+replace Birth_order = 1 if (B9==1)
+replace Birth_order = 2 if (B9==2)
+replace Birth_order = 3 if (B9==3)
+replace Birth_order = 4 if inrange(B9, 4, 12)
+
+la def Birth_order 4 "4-12"
+la var Birth_order "Birth Order of the Last Child RECODE"
+la val Birth_order Birth_order
+
+ta Birth_order,m
+
+**
+gen Birth_order2 = .
+replace Birth_order2 = 0 if (B9==0)
+replace Birth_order2 = 1 if (B9==1)
+replace Birth_order2 = 2 if inrange(B9, 2, 3)
+replace Birth_order2 = 3 if inrange(B9, 4, 5)
+replace Birth_order2 = 4 if inrange(B9, 6, 12)
+
+la def Birth_order2 2 "2-3" 3 "4-5" 4 "6+"
+la var Birth_order2 "Birth Order of the Last Child RECODE2"
+la val Birth_order2 Birth_order2
+
+ta Birth_order2,m
+
+
+
+
+*Residence
+gen residence=.
+replace residence = 1 if inrange(B4, 0, 3)
+replace residence = 2 if inrange(B4, 4, 8)
+
+la def residence 1 "urban" 2 "rural"
+la var residence "Residence"
+la val residence residence
+ta residence,m
+
+*Zone
+gen zone=.
+replace zone = 1 if inrange(A1, 1, 4)
+replace zone = 1 if (A1==15)
+recode zone (.=2)
+
+la def zone 1 "Osun Central" 2 "Osun East"
+la var zone "Zone"
+la val zone zone
+
+*Local Government Area
+gen LGA=.
+replace LGA = 1 if inrange(B4, 0, 3)
+replace LGA = 2 if inrange(B4, 4, 8)
+
+la def LGA 11 "Boluwaduro" 12 "Ifelodun" 13 "Odo Otin" 14 "Boripe" 15 "Ila" 16 "Ifedayo" 17 "Irepodun" 18 "Olorunda" 19 "Osogbo" 21 "Atakumosa East" 22 "Atakumosa West" 23 "Ife East" 24 "Ife North" 25 "Ife South" 26 "Ife Central" 27 "Obokun" 28 "Oriade" 29 "Ilesa East" 210 "Ilesa West"
+
+la var LGA "Local Government Areas"
+la val LGA LGA
+
+
+
+
+*Pregnancy month of first ANC visit
+gen first_ANC_visit=.
+replace first_ANC_visit = 1 if inrange(B13, 1, 3)
+replace first_ANC_visit = 2 if inrange(B13, 4, 6)
+replace first_ANC_visit = 3 if inrange(B13, 7, 9)
+replace first_ANC_visit = 7 if (B13==.)
+
+la def first_ANC_visit 1 "1-3 mo" 2 "4-6 mo" 3 "7-9 mo" 7 "no regular ANC visit"
+la var first_ANC_visit "Pregnancy month of first ANC visit"
+la val first_ANC_visit  first_ANC_visit
+
+ta first_ANC_visit,m 
+
+
+*Number of total ANC visits during the last pregnancy 
+gen total_ANC_visits=.
+replace total_ANC_visits = 1 if inrange(B14, 1, 5)
+replace total_ANC_visits = 2 if inrange(B14, 6, 24)
+replace total_ANC_visits = 7 if (B14==.)
+
+la def total_ANC_visits 1 "<6 visits" 2 "6+ visits" 7 "Unbooked"
+la var total_ANC_visits "Number of total ANC visits during the last pregnancyRECODE"
+la val total_ANC_visits total_ANC_visits
+
+ta total_ANC_visits,m
+
+**
+*Place of delivery of the last pregnancy 
+This is a classic "multiple response" question where respondents could choose more than one reason, and the responses were stored as a space-separated string of numeric codes (like 1 2 4 6 11 for a single observation).
+
+To clean and work with this type of data in Stata, the goal is to split the responses into separate dummy variables (1 = selected, 0 = not selected) for each possible reason (1 to 13) 
+
+
+gen B18_1  = regexm(" " + B18 + " ", " 1 ")
+gen B18_2  = regexm(" " + B18 + " ", " 2 ")
+gen B18_3  = regexm(" " + B18 + " ", " 3 ")
+gen B18_4  = regexm(" " + B18 + " ", " 4 ")
+gen B18_5  = regexm(" " + B18 + " ", " 5 ")
+gen B18_6  = regexm(" " + B18 + " ", " 6 ")
+gen B18_7  = regexm(" " + B18 + " ", " 7 ")
+gen B18_8  = regexm(" " + B18 + " ", " 8 ")
+gen B18_9  = regexm(" " + B18 + " ", " 9 ")
+gen B18_10 = regexm(" " + B18 + " ", " 10 ")
+gen B18_11 = regexm(" " + B18 + " ", " 11 ")
+gen B18_12 = regexm(" " + B18 + " ", " 12 ")
+gen B18_13 = regexm(" " + B18 + " ", " 13 ")
+
+
+
+--
+foreach x in 1 2 3 4 5 6 7 8 9 10 11 12 13 {
+    replace B18_`x' = 0 if missing(B18_`x') & !missing(B18)
+}
+
+
+----
+la def B18_1 0 "no" 1 "yes"
+la def B18_2 0 "no" 1 "yes"
+la def B18_3 0 "no" 1 "yes"
+la def B18_4 0 "no" 1 "yes"
+la def B18_5 0 "no" 1 "yes"
+la def B18_6 0 "no" 1 "yes"
+la def B18_7 0 "no" 1 "yes"
+la def B18_8 0 "no" 1 "yes"
+la def B18_9 0 "no" 1 "yes"
+la def B18_10 0 "no" 1 "yes"
+la def B18_11 0 "no" 1 "yes"
+la def B18_12 0 "no" 1 "yes"
+la def B18_13 0 "no" 1 "yes"
+
+
+--
+la val B18_1 B18_1
+la val B18_2 B18_2
+la val B18_3 B18_3
+la val B18_4 B18_4
+la val B18_5 B18_5
+la val B18_6 B18_6
+la val B18_7 B18_7
+la val B18_8 B18_8
+la val B18_9 B18_9
+la val B18_10 B18_10
+la val B18_11 B18_11
+la val B18_12 B18_12
+la val B18_13 B18_13
+
+--
+label variable B18_1 "Proximity to Healthcare Facilities"
+label variable B18_2 "Cost of Delivery Services"
+label variable B18_3 "Cultural Beliefs and Practices"
+label variable B18_4 "Perceived Quality of Care"
+label variable B18_5 "Previous Birth Experiences"
+label variable B18_6 "Availability of Skilled Birth Attendants"
+label variable B18_7 "Accessibility and Infrastructure"
+label variable B18_8 "Fear of Medical Interventions"
+label variable B18_9 "Religious Beliefs"
+label variable B18_10 "Influence of Family and Community"
+label variable B18_11 "Trust with Healthcare Providers"
+label variable B18_12 "Perceived Severity of Labour"
+label variable B18_13 "Influence of Family and Community"
+
+
+--
+tab1 B18_1 B18_2 B18_3 B18_4 B18_5 B18_6 B18_7 B18_8 B18_9 B18_10 B18_11 B18_12 B18_13 
+
+
+***How many years ago was your last delivery
+ta B19,m
+gen Numb_years_since_last_delivery=.
+replace Numb_years_since_last_delivery = 1 if inrange(B19, 0, 4)
+replace Numb_years_since_last_delivery = 2 if inrange(B19, 5, 9)
+replace Numb_years_since_last_delivery = 3 if inrange(B19, 10, 14)
+replace Numb_years_since_last_delivery = 4 if inrange(B19, 15, 19)
+replace Numb_years_since_last_delivery = 5 if inrange(B19, 20, 24)
+replace Numb_years_since_last_delivery = 6 if inrange(B19, 25, 29)
+replace Numb_years_since_last_delivery = 7 if inrange(B19, 30, 34)
+
+
+la def Numb_years_since_last_delivery 1 "0-4 years" 2 "5-9 years" 3 "10-14 years" 4 "15-19 years" 5 "20-24 years" 6 "25-29 years" 7 "30-34 years"
+la val Numb_years_since_last_delivery Numb_years_since_last_delivery
+la var Numb_years_since_last_delivery "Number of years since woman’s last delivery"
+
+ta Numb_years_since_last_delivery,m
+
+
+***Formal Education by background characteristics of reproductive age women
+ta age_group A3,row chi2
+ta residence A3,row chi2
+ta zone A3,row chi2
+ta LGA A3,row chi2
+
+***Highest completed level of education by background characteristics of reproductive age women
+ta age_group A4,row chi2
+ta residence A4,row chi2
+ta zone A4,row chi2
+ta LGA A4,row chi2
+
+
+***Husband's Occupation by background characteristics of reproductive age women
+ta age_group occ_cat,row chi2
+ta num_children_alive occ_cat,row chi2
+ta residence occ_cat,row chi2
+ta zone occ_cat,row chi2
+ta LGA occ_cat,row chi2
+
+
+***Age at first birth by background characteristics of reproductive age women
+ta age_group age_first_birth,row chi2
+ta num_children_alive age_first_birth,row chi2
+ta residence age_first_birth,row chi2
+ta zone age_first_birth,row chi2
+ta LGA age_first_birth,row chi2
+
+
+**Median age at first birth across background characteristics
+tabstat B1, by(age_group) stat(median) columns(statistics)
+tabstat B1, by(num_children_alive) stat(median) columns(statistics)
+tabstat B1, by(residence) stat(median) columns(statistics)
+tabstat B1, by(zone) stat(median) columns(statistics)
+tabstat B1, by(LGA) stat(median) columns(statistics)
+
+
+
+***Types of health workers attended to woman during labour
+la def B241 0 "no" 1 "yes"
+la def B242 0 "no" 1 "yes"
+la def B243 0 "no" 1 "yes"
+la def B244 0 "no" 1 "yes"
+
+la val B241 B241
+la val B242 B242
+la val B243 B243
+la val B244 B244
+
+la var B241 "Doctor at PHC Facility"
+la var B242 "Nurse/midwife"
+la var B243 "Community Health Officer (CHO)"
+la var B244 "Community Health Extension Worker (CHEW)"
+
+tab1 B241 B242 B243 B244
+
+******Respectful Maternity Care (RMC) Scale
+tab1 C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15
+
+*RMC Mean +/-SD
+su C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15
+
+***Total RMC Scale
+gen Total_RMC = C1 + C2 + C3 + C4 + C5 + C6 + C7 + C8 + C9 + C10 + C11 + C12 + C13 + C14 + C15
+
+ta Total_RMC,
+su Total_RMC
+
+gen friendly_RMC = C1 + C2 + C3 + C4 + C5 + C6 + C7
+gen abusefree_RMC = C8 + C9 + C10
+gen timely_RMC = C11 + C12 + C13
+gen nondiscriminatory_RMC = C14 + C15
+
+
+***Standardization of RMC Scale
+gen ReportedRMC *100
+
+egen AC1 = (mean(C1) - 1)/4 * 100
+
+****Factors influencing Choice of place of delivery****
+**Ever delivered in Health Facility
+*according to study area
+ta residence B7,row chi2
+ta zone B7,row chi2
+ta LGA B7,row chi2
+
+*according woman characterisitcs
+ta age_group B7,row chi2
+ta A3 B7,row chi2
+ta A5 B7,row chi2
+ta A6 B7,row chi2
+ta occ_cat B7,row chi2
+ta A8 B7,row chi2
+
+*according obstetrics profile
+ta age_first_birth B7,row chi2
+ta num_pregnancies_had2 B7,row chi2
+ta num_deliveries_had2 B7,row chi2
+ta num_children_alive B7,row chi2
+ta Birth_order2 B7,row chi2
+ta B10 B7,row chi2
+ta B11 B7,row chi2
+ta B16 B7,row chi2
+ta B20 B7,row chi2
+
+
+**Place of last delivery 
+*according to study area
+ta residence B17,row chi2
+ta zone B17,row chi2
+ta LGA B17,row chi2
+
+*according woman characterisitcs
+ta age_group B17,row chi2
+ta A3 B17,row chi2
+ta A5 B17,row chi2
+ta A6 B17,row chi2
+ta occ_cat B17,row chi2
+ta A8 B17,row chi2
+
+*according obstetrics profile
+ta age_first_birth B17,row chi2
+ta num_pregnancies_had2 B17,row chi2
+ta num_deliveries_had2 B17,row chi2
+ta num_children_alive B17,row chi2
+ta Birth_order2 B17,row chi2
+ta B10 B17,row chi2
+ta B11 B17,row chi2
+ta B16 B17,row chi2
+ta B20 B17,row chi2
+
+
+****************************************
+****************************************
+*Recode outcome: choice of place of delivery
+gen facility_delivery = .
+replace facility_delivery = 1 if inlist(B17, 1, 2)
+replace facility_delivery = 0 if inlist(B17, 3, 4, 5, 6)
+
+label define facility_label 0 "Non-facility delivery" 1 "Facility delivery"
+label values facility_delivery facility_label
+
+*Double-check the result
+tab B17 facility_delivery, missing
+ta facility_delivery
+
+---------------
+
+
+***Bivariate multilevel logistic regression
+--specifies that we're fitting a two-level (multilevel) model, where we are: 
+-Grouping individuals (women) within clusters, in this case LGA (Local Government Areas)
+-Allowing for a random intercept at the LGA level
+
+melogit facility_delivery i.age_group || LGA:, or
+melogit facility_delivery i.A3 || LGA:, or
+melogit facility_delivery i.A4 || LGA:, or
+melogit facility_delivery i.A5 || LGA:, or
+melogit facility_delivery i.A6 || LGA:, or
+melogit facility_delivery i.occ_cat || LGA:, or
+melogit facility_delivery i.A8 || LGA:, or
+melogit facility_delivery i.age_first_birth || LGA:, or
+melogit facility_delivery i.num_pregnancies_had2 || LGA:, or
+melogit facility_delivery i.num_deliveries_had2 || LGA:, or
+melogit facility_delivery i.num_children_alive || LGA:, or
+melogit facility_delivery i.Birth_order2 || LGA:, or
+melogit facility_delivery i.B10 || LGA:, or
+melogit facility_delivery i.B11 || LGA:, or
+melogit facility_delivery i.B16 || LGA:, or
+melogit facility_delivery i.B20 || LGA:, or
+
+melogit facility_delivery i.residence || LGA:, or
+melogit facility_delivery i.zone || LGA:, or
+... Note: mention that variables with p < 0.25 were retained for Model 2 or 4
+
+
+**Model 1 (Null Model)
+melogit facility_delivery || LGA:, or
+estimates store m1_null
+
+**Model 2 (Individual-level only)
+melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 || LGA:, or
+estimates store m2_individual
+
+*Model 3 (Community-level only)
+melogit facility_delivery i.residence i.zone || LGA:, or
+estimates store m3_community
+
+
+**Final multilevel logistic regression model (model 4)
+melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 i.residence i.zone || LGA:, or
+estimates store full
+
+*Compare models (AIC and BIC)
+estimates stats m1_null m2_individual m3_community full
+
+*Random effects diagnostics
+* Intraclass correlation
+estat icc
+
+
+
+* Median Odds Ratio (MOR)
+display exp(sqrt(2 * var(_cons)) * 0.6745)
+* Model 1
+local m1_var = 0.086
+display "Model 1 MOR = " %6.3f exp(sqrt(2 * `m1_var') * 0.6745)
+
+* Model 2
+local m2_var = 1.95e-33
+display "Model 2 MOR = " %6.3f exp(sqrt(2 * `m2_var') * 0.6745)
+
+* Model 3
+local m3_var = 1.18e-32
+display "Model 3 MOR = " %6.3f exp(sqrt(2 * `m3_var') * 0.6745)
+
+* Model 4
+local m4_var = 1.13e-35
+display "Model 4 MOR = " %6.3f exp(sqrt(2 * `m4_var') * 0.6745)
+
+
+
+* Proportional change in variance (PCV) for each model
+---- [You calculate PCV manually from variance components of models]
+* Store variances
+local var_null = 0.086
+local var_m2   = 1.95e-33
+local var_m3   = 1.18e-32
+local var_m4   = 1.13e-35
+
+* Compute PCV
+display "Model 2 PCV (%) = " %6.2f ((`var_null' - `var_m2') / `var_null') * 100
+display "Model 3 PCV (%) = " %6.2f ((`var_null' - `var_m3') / `var_null') * 100
+display "Model 4 PCV (%) = " %6.2f ((`var_null' - `var_m4') / `var_null') * 100
+
+
+
+***Notes for Writing:
+*You should describe the progression from null to full model, noting how variance drops (PCV), model fit improves (AIC/BIC), and how clustering at the LGA level contributes to delivery choices (ICC and MOR).
+
+*Cite ICC and MOR as measures of unobserved cluster-level heterogeneity.
+
+*PCV highlights how much of the between-cluster variance is explained by added variables.
+
+
+---
+*Multicollinearity check (for fixed effects)
+collin age_first_birth num_pregnancies_had2 ...
+
+
+
+
+
+
+
+
+
+
+
+***********RMC Tool*************
+**Generate the mean RMC percent within C1 through C15**
+gen rmc_C1percent = ((C1 - 1) / 4) * 100
+gen rmc_C2percent = ((C2 - 1) / 4) * 100
+gen rmc_C3percent = ((C3 - 1) / 4) * 100
+gen rmc_C4percent = ((C4 - 1) / 4) * 100
+gen rmc_C5percent = ((C5 - 1) / 4) * 100
+gen rmc_C6percent = ((C6 - 1) / 4) * 100
+gen rmc_C7percent = ((C7 - 1) / 4) * 100
+*
+gen rmc_C8percent = ((C8 - 1) / 4) * 100
+gen rmc_C9percent = ((C9 - 1) / 4) * 100
+gen rmc_C10percent = ((C10 - 1) / 4) * 100
+*
+gen rmc_C11percent = ((C11 - 1) / 4) * 100
+gen rmc_C12percent = ((C12 - 1) / 4) * 100
+gen rmc_C13percent = ((C13- 1) / 4) * 100
+*
+gen rmc_C14percent = ((C14- 1) / 4) * 100
+gen rmc_C15percent = ((C15- 1) / 4) * 100
+
+
+su rmc_C1percent-rmc_C15percent
+
+
+**Generate the OVERALL mean RMC score across C1 to C15
+egen rmc_mean = rowmean(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15)
+
+
+Convert mean to percentage score
+gen rmc_percent = ((rmc_mean - 1) / 4) * 100
+
+**********
+gen complete_rmc = .
+replace complete_rmc = 1 if rmc_nonmiss == 15
+replace complete_rmc = 2 if rmc_nonmiss >= 12 & rmc_nonmiss < 15
+replace complete_rmc = 3 if rmc_nonmiss >= 6 & rmc_nonmiss < 12
+
+
+label define rmc_levels 1 "All 15 answered" 2 "At least 12 answered" 3 "At least 6 answered"
+label values complete_rmc rmc_levels
+
+
+ta complete_rmc
+
+*************
+**Optional checks to confirm ALL 15 items were answered: Count number of non-missing RMC responses (C1 to C15)**
+egen rmc_nonmiss = rownonmiss(C1-C15)
+gen rmc_mean12 = .
+replace rmc_mean12 = rmc_mean if rmc_nonmiss >= 12
+gen rmc_percent12 = ((rmc_mean12 - 1)/4) * 100
+
+su rmc_percent if complete_rmc == 1
+
+
+***********OVERALL RMC Score Categories
+gen rmc_cat = .
+replace rmc_cat = 1 if rmc_percent < 50
+replace rmc_cat = 2 if rmc_percent >= 50 & rmc_percent < 75
+replace rmc_cat = 3 if rmc_percent >= 75
+
+label define rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values rmc_cat rmc_cat_lbl
+
+
+ta rmc_cat
+
+
+
+************GENERATING REPORTED RMC DOMAINS************
+***Friendly_RMC 
+**Generate the mean Friendly RMC score across C1 to C7
+egen friendly_rmc_mean = rowmean(C1 C2 C3 C4 C5 C6 C7)
+
+**Convert mean to percentage score
+gen friendly_rmc_percent = ((friendly_rmc_mean - 1) / 4) * 100
+
+***************Abuse-free_RMC 
+**Generate the mean Abuse-free care RMC score across C8 to C10
+egen abusefree_rmc_mean = rowmean(C8 C9 C10)
+
+**Convert mean to percentage score
+gen abusefree_rmc_percent = ((abusefree_rmc_mean - 1) / 4) * 100
+
+
+***************Timely care_RMC 
+**Generate the mean Timely care RMC score across C11 to C13
+egen timelycare_rmc_mean = rowmean(C11 C12 C13)
+
+**Convert mean to percentage score
+gen timelycare_rmc_percent = ((timelycare_rmc_mean - 1) / 4) * 100
+
+
+***************Non-discriminatory care_RMC 
+**Generate the mean Non-discriminatory care RMC score across C14 to C15
+egen nondiscriminatorycare_rmc_mean = rowmean(C14 C15)
+
+**Convert mean to percentage score
+gen ndcare_rmc_percent = ((nondiscriminatorycare_rmc_mean - 1) / 4) * 100
+
+
+su friendly_rmc_mean abusefree_rmc_mean timelycare_rmc_mean nondiscriminatorycare_rmc_mean
+
+******REPORTED MEAN PERCENT RMC DOMAINS*****
+
+tab1 friendly_rmc_percent abusefree_rmc_percent timelycare_rmc_percent ndcare_rmc_percent
+
+su friendly_rmc_percent abusefree_rmc_percent timelycare_rmc_percent ndcare_rmc_percent
+
+
+*******Intraclass correlation coefficients in Reported RMC Domains*****
+gen id = _n
+
+
+******Rename to a common stub
+rename friendly_rmc_percent rmc1
+rename abusefree_rmc_percent rmc2
+rename timelycare_rmc_percent rmc3
+rename ndcare_rmc_percent rmc4
+
+*****Reshape to long format
+reshape long rmc, i(id) j(component)
+
+
+****Label the components
+label define rmc_parts 1 "Friendly care" 2 "Abuse-free" 3 "Timely care" 4 "ND care"
+label values component rmc_parts
+
+
+***Run the ICC
+icc rmc id
+
+icc rmc_component id
+
+***Cronbach’s Alpha to confirm internal consistency:
+--Reshape back to wide format
+reshape wide rmc, i(id) j(component)
+
+alpha rmc1 rmc2 rmc3 rmc4
+
+
+********Optional: ICC using mixed model
+mixed rmc_component || id:
+estat icc
+
+
+
+icc friendly_rmc_percent abusefree_rmc_percent timelycare_rmc_percent ndcare_rmc_percent 
+
+
+***********RMC Domain Score Categories
+
+*1
+gen friendly_rmc_cat = .
+replace friendly_rmc_cat = 1 if friendly_rmc_percent >=0 & friendly_rmc_percent < 50
+replace friendly_rmc_cat = 2 if friendly_rmc_percent >= 50 & friendly_rmc_percent < 75
+replace friendly_rmc_cat = 3 if friendly_rmc_percent >= 75
+replace friendly_rmc_cat = . if B7 == 2
+
+label define friendly_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values friendly_rmc_cat rmc_cat_lbl
+
+ta friendly_rmc_cat
+
+*2
+gen abusefree_rmc_cat = .
+replace abusefree_rmc_cat = 1 if abusefree_rmc_percent >=0 & abusefree_rmc_percent < 50
+replace abusefree_rmc_cat = 2 if abusefree_rmc_percent >= 50 & abusefree_rmc_percent < 75
+replace abusefree_rmc_cat = 3 if abusefree_rmc_percent >= 75
+replace abusefree_rmc_cat = . if B7 == 2
+
+label define abusefree_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values abusefree_rmc_cat rmc_cat_lbl
+
+ta abusefree_rmc_cat
+
+*3
+gen timelycare_rmc_cat = .
+replace timelycare_rmc_cat = 1 if timelycare_rmc_percent >=0 & timelycare_rmc_percent < 50
+replace timelycare_rmc_cat = 2 if timelycare_rmc_percent >= 50 & timelycare_rmc_percent < 75
+replace timelycare_rmc_cat = 3 if timelycare_rmc_percent >= 75
+replace timelycare_rmc_cat = . if B7 == 2
+
+label define timelycare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values timelycare_rmc_cat rmc_cat_lbl
+
+ta timelycare_rmc_cat
+
+				
+*4
+gen ndcare_rmc_cat = .
+replace ndcare_rmc_cat = 1 if ndcare_rmc_percent >=0 & ndcare_rmc_percent < 50
+replace ndcare_rmc_cat = 2 if ndcare_rmc_percent >= 50 & ndcare_rmc_percent < 75
+replace ndcare_rmc_cat = 3 if ndcare_rmc_percent >= 75
+replace ndcare_rmc_cat = . if B7 == 2
+
+label define ndcare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values ndcare_rmc_cat rmc_cat_lbl
+
+ta ndcare_rmc_cat
+
+
+***Overall RMC
+replace rmc_cat = . if B7 == 2
+ta rmc_cat
+
+
+
+*******************************************
+*1
+gen friendly_cat = .
+replace friendly_cat = 1 if friendly_rmc_percent >=0 & friendly_rmc_percent < 50
+replace friendly_rmc_cat = 2 if friendly_rmc_percent >= 50 & friendly_rmc_percent < 75
+replace friendly_rmc_cat = 3 if friendly_rmc_percent >= 75
+replace friendly_rmc_cat = . if B7 == 2
+
+label define friendly_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values friendly_rmc_cat rmc_cat_lbl
+
+ta friendly_rmc_cat
+
+*2
+gen abusefree_rmc_cat = .
+replace abusefree_rmc_cat = 1 if abusefree_rmc_percent >=0 & abusefree_rmc_percent < 50
+replace abusefree_rmc_cat = 2 if abusefree_rmc_percent >= 50 & abusefree_rmc_percent < 75
+replace abusefree_rmc_cat = 3 if abusefree_rmc_percent >= 75
+replace abusefree_rmc_cat = . if B7 == 2
+
+label define abusefree_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values abusefree_rmc_cat rmc_cat_lbl
+
+ta abusefree_rmc_cat
+
+*3
+gen timelycare_rmc_cat = .
+replace timelycare_rmc_cat = 1 if timelycare_rmc_percent >=0 & timelycare_rmc_percent < 50
+replace timelycare_rmc_cat = 2 if timelycare_rmc_percent >= 50 & timelycare_rmc_percent < 75
+replace timelycare_rmc_cat = 3 if timelycare_rmc_percent >= 75
+replace timelycare_rmc_cat = . if B7 == 2
+
+label define timelycare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values timelycare_rmc_cat rmc_cat_lbl
+
+ta timelycare_rmc_cat
+
+				
+*4
+gen ndcare_rmc_cat = .
+replace ndcare_rmc_cat = 1 if ndcare_rmc_percent >=0 & ndcare_rmc_percent < 50
+replace ndcare_rmc_cat = 2 if ndcare_rmc_percent >= 50 & ndcare_rmc_percent < 75
+replace ndcare_rmc_cat = 3 if ndcare_rmc_percent >= 75
+replace ndcare_rmc_cat = . if B7 == 2
+
+label define ndcare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values ndcare_rmc_cat rmc_cat_lbl
+
+ta ndcare_rmc_cat
+
+
+***Overall RMC
+replace rmc_cat = . if B7 == 2
+ta rmc_cat
+*******************************************
+
+**************RMC Level received**************
+*according to study area*
+ta residence rmc_cat,row chi2
+ta zone rmc_cat,row chi2
+ta LGA rmc_cat,row chi2
+
+*according woman characterisitcs*
+ta age_group rmc_cat,row chi2
+ta A3 rmc_cat,row chi2
+ta A5 rmc_cat,row chi2
+ta A6 rmc_cat,row chi2
+ta occ_cat rmc_cat,row chi2
+ta A8 rmc_cat,row chi2
+
+*according obstetrics profile*
+ta age_first_birth rmc_cat,row chi2
+ta num_pregnancies_had2 rmc_cat,row chi2
+ta num_deliveries_had2 rmc_cat,row chi2
+ta num_children_alive rmc_cat,row chi2
+ta Birth_order2 rmc_cat,row chi2
+ta B10 rmc_cat,row chi2
+ta B11 rmc_cat,row chi2
+ta B16 rmc_cat,row chi2
+ta B20 rmc_cat,row chi2
+
+*******************************************************
+
+
+
+************Associated factors of RMC scores*************
+
+***Model Commands for Linear Regression Model**
+* Ensure categorical variables use first level as reference
+foreach var in residence zone LGA age_group A3 A5 A6 occ_cat A8 Birth_order2 B10 B11 B16 B20 {
+    char `var'[omit] 1
+}
+
+
+* Run the linear regression
+regress rmc_percent i.residence i.zone i.LGA  i.age_group i.A3 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20
+
+
+* Display coefficients with 95% CI and p-values -- 
+ssc install outreg2
+outreg2 using "rmc_linear_results.doc", replace ctitle("Linear Regression - RMC") dec(3)
+
+
+
+************Associated factors of RMC levels 1 *************
+--This model estimates the odds of receiving a better RMC [Moderate/High] vs Low RMC.
+
+* Run the binary logistics regression
+* Loop to get crude OR for each variable (categorical and continuous mixed)
+
+foreach var in residence age_group A3 A5 A6 occ_cat A8 age_first_birth num_pregnancies_had2 num_deliveries_had2 num_children_alive Birth_order2 B10 B11 B16 B20 {
+    logistic rmc_binary i.`var'
+    est store `var'
+}
+
+
+*multivariable (adjusted OR) model
+logistic rmc_binary i.residence i.zone i.LGA  i.age_group i.A3 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20, or
+
+
+*Export results
+outreg2 using "rmc_binary_logit.doc", replace ctitle("Binary Logistic Regression - RMC") dec(3) b(3) se star(* 0.05 ** 0.01 *** 0.001)
+
+
+
+
+************Associated factors of RMC levels 2 *************
+*Ordinal Logistic Regression*
+*Ordinal logistic regression models the cumulative odds of being in a higher category of the outcome. 
+
+
+ologit rmc_cat i.residence i.age_group i.A3 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20, or
+
+
+*This model estimates:
+The odds that a woman will experience at least Moderate vs Low RMC, and the odds of High vs Moderate or Low, assuming proportional odds.
+
+
+
+
+
+
+
+
+**********************************************
+RMC Study Narrative Analysis Report of Results
+
+My name is FEHINTOLA AKINTUNDE. I am a Ph.D student at the Department of Public Health, Adeleke University Ede, Osun State. The purpose of the study is to gather information about the current status of Respectful Maternity Care (RMC) and its impacts on women’s choices of place of childbirth and pregnancy outcomes in Osun State. 
+I have some tables I need you to analyse for me
+
+Take Note:
+Line by line narrative report of n (%)
+No bulleting
+Use academic writing style in British English
+REFRAIN from using robotic words like "nuanced"
+
+Questions?
+
+Friendly care
+1.Healthcare workers approached me in a kind manner (very nice and ready to help)
+2.Healthcare workers were friendly (pleasant) in their treatment
+3.Healthcare workers sounded positively/ encouraging on topics about pain and its relief
+4.Healthcare workers were concerned and empathic.
+5.Healthcare workers respected me as an individual
+6.Healthcare workers communicated to me in a language within my understanding
+7.Healthcare workers addressed me by my name
+
+Abuse-free care
+8.Healthcare workers responded to my needs in a professionally expected manner
+9.Healthcare workers hit me during delivery
+10.Healthcare workers yelled at me because I did not do what they wanted me to do
+
+Timely care
+11.I was not given prompt service and I waited for a long time.
+12.I was free to practice my cultural and religious traditions in the facility
+13.Problems in the health facility often delay their attending to their patients
+
+Non-discriminatory care
+14.Some healthcare workers mistreated me because of some of my personal characteristics. (for example, my age, my financial status).
+15.Some healthcare workers offended me and my companions due to my personal characteristics (for example, my age, my financial status).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

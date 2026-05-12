@@ -1,0 +1,95 @@
+su friendly_rmc_mean abusefree_rmc_mean timelycare_rmc_mean nondiscriminatorycare_rmc_mean
+
+
+Findings on Community resources available for IPV
+Develop a matrix
+Milwaukee >>>ooo>>> United States
+
+Family support, etc.
+
+
+Conference Key Subthemes:
+A. INNOVATIONS IN ARTS AND ARCHITECTURE
+i. Smart buildings/smart cities
+ii. Design Innovation and 
+
+Beatrice 09150861828
+
+****Create a binary version of it for use in binary logistic regression******
+gen rmc_binary = .
+replace rmc_binary = 1 if rmc_cat == 2 | rmc_cat == 3
+replace rmc_binary = 0 if rmc_cat == 1
+label define rmcbin 0 "Low RMC" 1 "Moderate/High RMC"
+label values rmc_binary rmcbin
+-
+ta rmc_binary
+
+**
+linear: rmc_percent
+binary: rmc_binary
+multivar: rmc_cat
+
+***
+
+
+**Generate Model Commands**
+DEPENDENT VARIABLE
+B17 (Where was your last place of delivery?)
+
+Confounding Variables
+B7 (Ever delivered in Health Facility)
+
+
+INDEPENDENT VARIABLES
+residence 
+zone 
+LGA 
+age_group 
+A3 (Had formal education?)
+A5 ( Marital Status)
+A6 (Ethnicity)
+occ_cat (Husband's Occupation)
+A8 (Ownership of Means of Transportation)
+age_first_birth 
+num_pregnancies_had2 
+num_deliveries_had2 
+num_children_alive 
+Birth_order2 
+B10 (Adverse birth outcomes during delivery preceding the last pregnancy)
+B11 (Regular ANC visit during the last pregnancy)
+B16 (Any pregnancy related problem during)
+B20 (What was the outcome of the last pregnancy?)
+
+**show constant, coefficients, 95%CI, pvalue (at 5% level)
+**set Ref at first level of all Independents variables
+
+**Commands for Binary Logistics Regression Model**
+
+maternal age group, 
+formal education, 
+level of education, 
+marital status, 
+ethnicity, 
+husband’s occupation, 
+ownership of transportation, 
+age at first birth, 
+gravidity, 
+parity, 
+number of children alive, 
+birth order, 
+prior adverse birth outcomes, 
+booking status, 
+pregnancy-related complications,  
+pregnancy outcome
+
+residence and 
+zone
+
+
+
+
+
+
+
+
+

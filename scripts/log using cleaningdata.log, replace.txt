@@ -1,0 +1,2725 @@
+1.5 Research Objectives
+The primary objective of this research is to examine the status of Respectful Maternity Care in Osun State, Southwest Nigeria, its role as a predictor of women's choice of maternal care and pregnancy outcomes as well as the potential strategies to improve the readiness for change to RMC in Osun State
+ Specific objectives include:
+1.To determine the current level of knowledge of healthcare providers regarding Respectful Maternity Care in Osun State, Nigeria
+2.To determine the current status of RMC practices among healthcare providers in Osun State, Southwest Nigeria.
+3.To explore the perceptions of women about RMC during childbirth in Osun State.
+4.To determine the proportion of women experiencing respectful maternity care (RMC) during childbirth in Osun State
+5.To identify factors influencing the practice of RMC among healthcare providers in Osun State.
+6.To determine the factors influencing women's choice of maternal care in the region.
+7.To evaluate the organizational and individual readiness for change to RMC in the study location. 
+8.To identify potential strategies to improve the readiness for a change to RMC practice in Osun State.
+
+
+
+1.6 Research Hypotheses
+1. Null Hypotheses (H0):
+H0: The status of Respectful Maternity Care has no significant influence on the choice of maternal care among women in Southwest Nigeria.
+H0: The status of Respectful Maternity Care has no significant effect on pregnancy outcomes among women in Southwest Nigeria.
+Ho: The level of knowledge of health care providers on RMC has no significant influence on the status of respectful maternity care in Osun State Nigeria
+Ho:  Individual healthcare provider’s readiness for change to RMC practices has no significant influence on the status of RMC in Osun State, Nigeria.
+Ho:  Organizational readiness for change to RMC practices has no significant influence on the status of RMC in Osun State, Nigeria
+Ho; The socio-demographic status of women has no significant influence on the maternal perception of D&A during childbirth among women in Osun State
+
+************
+
+log using "cleaningdata.log", replace
+
+Perfect, Fehintola! Here's a **set of verified and ready-to-use Stata commands** you can run for **basic data cleaning** in Stata 15. These will help you inspect, clean, and prepare your dataset for analysis:
+
+---
+
+### 📌 **1. Get a quick overview of the data**
+
+```stata
+describe
+summarize
+codebook
+```
+
+---
+
+### 📌 **2. Identify missing values**
+
+```stata
+misstable summarize
+misstable patterns
+```
+
+---
+
+### 📌 **3. Drop observations with missing key variables**
+
+*(replace `var1` and `var2` with your important variables)*
+
+```stata
+drop if missing(var1, var2)
+```
+
+---
+
+### 📌 **4. Remove duplicate observations**
+
+*(based on all variables or specific ID variables)*
+
+```stata
+duplicates report
+duplicates list
+duplicates drop
+```
+
+Or to drop based on ID:
+
+```stata
+duplicates drop idvar, force
+```
+
+---
+
+### 📌 **5. Check for outliers or extreme values**
+
+```stata
+summarize varname, detail
+```
+
+You can flag or drop outliers based on percentile thresholds:
+
+```stata
+gen outlier = (varname < r(p1) | varname > r(p99))
+```
+
+---
+
+### 📌 **6. Rename variables for clarity (optional)**
+
+```stata
+rename oldvarname newvarname
+```
+
+---
+
+### 📌 **7. Recode categorical variables (if needed)**
+
+```stata
+recode gender (1=0 "Male") (2=1 "Female"), gen(female)
+```
+
+---
+
+### 📌 **8. Label variables and values (for better output)**
+
+```stata
+label variable age "Respondent's age"
+label define yesno 0 "No" 1 "Yes"
+label values consent yesno
+```
+
+---
+
+Great call, Fehintola! Keeping a logbook in Stata is essential for tracking all your commands and output. Here's exactly how to do it:
+
+---
+
+### ✅ **Start a log file**
+
+At the very beginning of your session, run:
+
+```stata
+log using "mylogfile.log", replace
+```
+
+* `"mylogfile.log"` is the name of your log file. You can change it to something like `"cleaning_log_2025.log"` or any name you prefer.
+* `replace` will overwrite the file if it already exists. Use `append` instead if you want to add to an existing log file.
+
+---
+
+### ✅ **Close the log file when you're done**
+
+At the end of your session, close the log with:
+
+```stata
+log close
+```
+
+---
+
+### ✅ **Optional: Save in SMCL (Stata Markup and Control Language) format**
+
+If you want a log that preserves formatting:
+
+```stata
+log using "mylogfile.smcl", replace
+```
+
+---
+
+Great question, Fehintola! Yes, you *can* copy tables manually from Stata, but there are **better, cleaner, and more automated ways** to export your output—especially if you're working with Excel or Word.
+
+---
+
+### ✅ **Best Options for Exporting Tables in Stata 15**
+
+#### 📌 **1. Exporting tables to Excel**
+
+For regression or summary tables:
+
+```stata
+esttab using "results.xlsx", replace excel
+```
+
+For summary stats:
+
+```stata
+estpost summarize var1 var2
+esttab using "summarystats.xlsx", replace excel
+```
+
+> 📌 **Note:** `estpost` and `esttab` come from the **`estout`** package. Install it once with:
+
+```stata
+ssc install estout
+```
+
+---
+
+#### 📌 **2. Exporting tabulation results**
+
+```stata
+tabulate gender education, matcell(freq)
+mat list freq
+putexcel A1=matrix(freq) using "tabs.xlsx", replace
+```
+
+---
+
+#### 📌 **3. Exporting to Word (using `asdoc`)**
+
+Install once:
+
+```stata
+ssc install asdoc
+```
+
+Then export like this:
+
+```stata
+asdoc regress y x1 x2, replace
+```
+
+You’ll get a well-formatted `.doc` file you can open in Word.
+
+---
+
+#### ✅ **Manual copy-paste works too**, but:
+
+* Use the **Results window**, not the **Viewer**.
+* Select, right-click, and choose “Copy Table as Picture” or “Copy as Table”.
+* Pasting into Excel may not preserve column formatting well.
+
+---
+
+Perfect, Fehintola! Now that `estout` is installed, you're ready to export tables cleanly to Excel or other formats.
+
+Here’s a **step-by-step example** of how to:
+
+---
+
+### ✅ **Export summary statistics to Excel**
+
+```stata
+estpost summarize age income education
+esttab using "summarystats.xlsx", replace excel
+```
+
+---
+
+### ✅ **Export regression output to Excel**
+
+```stata
+regress income age education
+esttab using "regression.xlsx", replace excel
+```
+
+---
+
+Would you like to customize the table (e.g. add labels, control decimal places, or include R² and N)?
+
+
+Absolutely, Fehintola! If you want to **keep only observations where age is between 15 and 49 years**, you can use the following command:
+
+---
+
+### ✅ **Keep age between 15 and 49**
+
+```stata
+keep if age >= 15 & age <= 49
+```
+
+---
+
+### 🔍 Optional: To inspect how many were dropped
+
+Before running the `keep` command, you can check how many fall outside the range:
+
+```stata
+tabulate age if age < 15 | age > 49
+```
+
+Or:
+
+```stata
+count if age < 15 | age > 49
+```
+
+---
+gen age_group = .
+replace age_group = 1 if inrange(Age, 15, 19)
+replace age_group = 2 if inrange(Age, 20, 24)
+replace age_group = 3 if inrange(Age, 25, 29)
+replace age_group = 4 if inrange(Age, 30, 34)
+replace age_group = 5 if inrange(Age, 35, 39)
+replace age_group = 6 if inrange(Age, 40, 44)
+replace age_group = 7 if inrange(Age, 45, 49)
+
+label define age_group 1 "15-19" 2 "20-24" 3 "25-29" 4 "30-34" 5 "35-39" 6 "40-44" 7 "45-49"
+label values age_group age_group 
+la var age_group "Age of women_RECODED"
+
+***********
+gen occ_cat = .
+
+* Unemployed (Group 1)
+replace occ_cat = 1 if inlist(lower(A7), "none", "nil", "not applicable", "nothing", "no husband", "non", "unemployment", "don't know")
+replace occ_cat = 1 if inlist(lower(A7), "unemployment", "don't know", "unknown", "late husband", "student", "retiree", "retired civil servant")
+
+
+* Self-employed or Entrepreneur (Group 2)
+replace occ_cat = 2 if inlist(lower(A7), "self", "entrepreneur", "business", "trader", "tailor", "artisan", "mechanic")
+replace occ_cat = 2 if inlist(lower(A7), "barber", "driver", "farmer", "vulganizer", "welder")
+replace occ_cat = 2 if inlist(lower(A7), "tailoring", "fashion", "artisan", "mechanic", "barbing", "okada")
+replace occ_cat = 2 if inlist(lower(A7), "bike", "farmer", "contractor", "dealer", "electrician", "rewiring")
+replace occ_cat = 2 if inlist(lower(A7), "carpenter", "plumber", "shoemaker", "block", "brick", "bread", "furniture")
+replace occ_cat = 2 if inlist(lower(A7), "photograph", "butcher", "sawmiller", "painter", "painting", "trade")
+replace occ_cat = 2 if inlist(lower(A7), "operator", "plan dealer", "waste manager", "slaughter", "wood seller")
+
+
+* Private or Professional (Group 3)
+replace occ_cat = 3 if inlist(lower(A7), "engineer", "accountant", "manager", "clergy")
+
+
+* Civil Servant (Group 4)
+replace occ_cat = 4 if inlist(lower(A7), "civil servant", "government", "local government", "doctor", "lecturer", "teacher", "nurse", "legal")
+
+
+label define occ_cat_lbl 1 "Unemployed" 2 "Self-employed/Entrepreneur" 3 "Private/Professional" 4 "Civil Servant"
+label values occ_cat occ_cat
+la var occ_cat "Husband's Occupation_RECODED"
+
+*
+*Age at First Birth
+ta B1,m
+recode B1 (237=23) (1 2 3 4 5 6 = 12)
+
+gen age_first_birth = .
+replace age_first_birth = 1 if inrange(B1, 1, 19)
+replace age_first_birth = 2 if inrange(B1, 20, 24)
+replace age_first_birth = 3 if inrange(B1, 25, 29)
+replace age_first_birth = 4 if inrange(B1, 30, 34)
+replace age_first_birth = 5 if inrange(B1, 35, 39)
+
+
+label define age_first_birth 1 "15-19" 2 "20-24" 3 "25-29" 4 "30-34" 5 "35-39"
+label values age_first_birth age_firstbirth
+la var age_first_birth "Age at First Birth_RECODED"
+ ----------
+
+*Number of pregnancies ever had 
+
+ta B2,m
+recode B2 (20 26 = 10)
+-
+gen num_pregnancies_had = .
+replace num_pregnancies_had = 1 if (B2==1)
+replace num_pregnancies_had = 2 if inrange(B2, 2, 4)
+replace num_pregnancies_had = 3 if inrange(B2, 5, 7)
+replace num_pregnancies_had = 4 if inrange(B2, 8, 10)
+
+label define num_pregnancies_had 1 "primigravida" 2 "2-4" 3 "5-7" 4 "8-10"
+label values num_pregnancies_had num_pregnancies_had
+la var num_pregnancies_had "Number of pregnancies ever had_RECODED"
+ta num_pregnancies_had,m
+
+**
+gen num_pregnancies_had2 = .
+replace num_pregnancies_had2 = 1 if (B2==1)
+replace num_pregnancies_had2 = 2 if inrange(B2, 2, 10)
+
+
+label define num_pregnancies_had2 1 "primigravida" 2 "multigravida"
+label values num_pregnancies_had2 num_pregnancies_had2
+la var num_pregnancies_had2 "Number of pregnancies ever had_RECODED2"
+ta num_pregnancies_had2,m
+
+
+
+*Number of deliveries ever had 
+
+ta B3,m
+-
+gen num_deliveries_had = .
+replace num_deliveries_had = 1 if (B3==1)
+replace num_deliveries_had = 2 if inrange(B3, 2, 4)
+replace num_deliveries_had = 3 if inrange(B3, 5, 7)
+replace num_deliveries_had = 4 if inrange(B3, 8, 10)
+
+label define num_deliveries_had 1 "primiparous" 2 "2-4" 3 "5-7" 4 "8-10"
+label values num_deliveries_had num_deliveries_had
+la var num_deliveries_had "Number of deliveries ever had_RECODED"
+ta num_deliveries_had,m
+
+
+**
+gen num_deliveries_had2 = .
+replace num_deliveries_had2 = 1 if (B3==1)
+replace num_deliveries_had2 = 2 if inrange(B3, 2, 10)
+
+
+label define num_deliveries_had2 1 "primiparous" 2 "multiparous"
+label values num_deliveries_had2 num_deliveries_had2
+la var num_deliveries_had2 "Number of deliveries ever had_RECODED2"
+ta num_deliveries_had2,m
+
+
+
+*Number of children alive
+ta B4,m
+recode B4 (34 = 4)
+-
+gen num_children_alive = .
+replace num_children_alive = 1 if (B4==0)
+replace num_children_alive = 2 if inrange(B4, 1, 4)
+replace num_children_alive = 3 if inrange(B4, 5, 8)
+
+
+label define num_children_alive 1 "none alive" 2 "1-4" 3 "5-8"
+label values num_children_alive num_children_alive
+la var num_children_alive "Number of children alive_RECODED"
+ta num_children_alive,m
+
+*Reasons for Choice of Place of delivery preceding the last pregnancy 
+This is a classic "multiple response" question where respondents could choose more than one reason, and the responses were stored as a space-separated string of numeric codes (like 1 2 4 6 11 for a single observation).
+
+To clean and work with this type of data in Stata, the goal is to split the responses into separate dummy variables (1 = selected, 0 = not selected) for each possible reason (1 to 14 or so) 
+
+
+gen B6_1 = regexm(B6, "\b1\b")
+gen B6_2 = regexm(B6, "\b2\b")
+gen B6_3 = regexm(B6, "\b3\b")
+gen B6_4 = regexm(B6, "\b4\b")
+gen B6_5 = regexm(B6, "\b5\b")
+gen B6_6 = regexm(B6, "\B6\b")
+gen B6_7 = regexm(B6, "\b7\b")
+gen B6_8 = regexm(B6, "\b8\b")
+gen B6_9 = regexm(B6, "\b9\b")
+gen B6_10 = regexm(B6, "\b10\b")
+gen B6_11 = regexm(B6, "\b11\b")
+gen B6_12 = regexm(B6, "\b12\b")
+gen B6_13 = regexm(B6, "\b13\b")
+
+--
+label variable B61 "Proximity to Healthcare Facilities"
+label variable B62 "Cost of Delivery Services"
+label variable B63 "Cultural Beliefs and Practices"
+label variable B64 "Perceived Quality of Care"
+label variable B65 "Previous Birth Experiences"
+label variable B66 "Availability of Skilled Birth Attendants"
+label variable B67 "Accessibility and Infrastructure"
+label variable B68 "Fear of Medical Interventions"
+label variable B69 "Religious Beliefs"
+label variable B610 "Influence of Family and Community"
+label variable B611 "Trust with Healthcare Providers"
+label variable B612 "Perceived Severity of Labour"
+label variable B613 "Influence of Family and Community"
+label variable B614 "Other (if applicable)"
+
+----
+la def B61 0 "no" 1 "yes"
+la def B62 0 "no" 1 "yes"
+la def B63 0 "no" 1 "yes"
+la def B64 0 "no" 1 "yes"
+la def B65 0 "no" 1 "yes"
+la def B66 0 "no" 1 "yes"
+la def B67 0 "no" 1 "yes"
+la def B68 0 "no" 1 "yes"
+la def B69 0 "no" 1 "yes"
+la def B610 0 "no" 1 "yes"
+la def B611 0 "no" 1 "yes"
+la def B612 0 "no" 1 "yes"
+la def B613 0 "no" 1 "yes"
+la def B614 0 "no" 1 "yes"
+
+--
+recode B61 (.=0)
+recode B62 (.=0)
+recode B63 (.=0)
+recode B64 (.=0)
+recode B65 (.=0)
+recode B66 (.=0)
+recode B67 (.=0)
+recode B68 (.=0)
+recode B69 (.=0)
+recode B610 (.=0)
+recode B611 (.=0)
+recode B612 (.=0)
+recode B613 (.=0)
+recode B614 (.=0)
+
+--
+la val B61 B61
+la val B62 B62
+la val B63 B63
+la val B64 B64
+la val B65 B65
+la val B66 B66
+la val B67 B67
+la val B68 B68
+la val B69 B69
+la val B610 B610
+la val B611 B611
+la val B612 B612
+la val B613 B613
+
+--
+tab1 B61 B62 B63 B64 B65 B66 B67 B68 B69 B610 B611 B612 B613 B14
+
+-
+Number of times ever delivered in health facility
+ta B8,m
+replace B8 = . if (B7==2)
+recode B8 (33 = 3) (. = 99)
+la def B8 99 "Never delievered in health facility"
+la val B8 B8
+ta B8,m
+-
+
+Birth Order of the Last Child     
+ta B9,m
+recode B9 (2022 = 0)
+
+gen Birth_order = .
+replace Birth_order = 0 if (B9==0)
+replace Birth_order = 1 if (B9==1)
+replace Birth_order = 2 if (B9==2)
+replace Birth_order = 3 if (B9==3)
+replace Birth_order = 4 if inrange(B9, 4, 12)
+
+la def Birth_order 4 "4-12"
+la var Birth_order "Birth Order of the Last Child RECODE"
+la val Birth_order Birth_order
+
+ta Birth_order,m
+
+**
+gen Birth_order2 = .
+replace Birth_order2 = 0 if (B9==0)
+replace Birth_order2 = 1 if (B9==1)
+replace Birth_order2 = 2 if inrange(B9, 2, 3)
+replace Birth_order2 = 3 if inrange(B9, 4, 5)
+replace Birth_order2 = 4 if inrange(B9, 6, 12)
+
+la def Birth_order2 2 "2-3" 3 "4-5" 4 "6+"
+la var Birth_order2 "Birth Order of the Last Child RECODE2"
+la val Birth_order2 Birth_order2
+
+ta Birth_order2,m
+
+
+
+
+*Residence
+gen residence=.
+replace residence = 1 if inrange(B4, 0, 3)
+replace residence = 2 if inrange(B4, 4, 8)
+
+la def residence 1 "urban" 2 "rural"
+la var residence "Residence"
+la val residence residence
+ta residence,m
+
+*Zone
+gen zone=.
+replace zone = 1 if inrange(A1, 1, 4)
+replace zone = 1 if (A1==15)
+recode zone (.=2)
+
+la def zone 1 "Osun Central" 2 "Osun East"
+la var zone "Zone"
+la val zone zone
+
+*Local Government Area
+gen LGA=.
+replace LGA = 1 if inrange(B4, 0, 3)
+replace LGA = 2 if inrange(B4, 4, 8)
+
+la def LGA 11 "Boluwaduro" 12 "Ifelodun" 13 "Odo Otin" 14 "Boripe" 15 "Ila" 16 "Ifedayo" 17 "Irepodun" 18 "Olorunda" 19 "Osogbo" 21 "Atakumosa East" 22 "Atakumosa West" 23 "Ife East" 24 "Ife North" 25 "Ife South" 26 "Ife Central" 27 "Obokun" 28 "Oriade" 29 "Ilesa East" 210 "Ilesa West"
+
+la var LGA "Local Government Areas"
+la val LGA LGA
+
+
+
+
+*Pregnancy month of first ANC visit
+gen first_ANC_visit=.
+replace first_ANC_visit = 1 if inrange(B13, 1, 3)
+replace first_ANC_visit = 2 if inrange(B13, 4, 6)
+replace first_ANC_visit = 3 if inrange(B13, 7, 9)
+replace first_ANC_visit = 7 if (B13==.)
+
+la def first_ANC_visit 1 "1-3 mo" 2 "4-6 mo" 3 "7-9 mo" 7 "no regular ANC visit"
+la var first_ANC_visit "Pregnancy month of first ANC visit"
+la val first_ANC_visit  first_ANC_visit
+
+ta first_ANC_visit,m 
+
+
+*Number of total ANC visits during the last pregnancy 
+gen total_ANC_visits=.
+replace total_ANC_visits = 1 if inrange(B14, 1, 5)
+replace total_ANC_visits = 2 if inrange(B14, 6, 24)
+replace total_ANC_visits = 7 if (B14==.)
+
+la def total_ANC_visits 1 "<6 visits" 2 "6+ visits" 7 "Unbooked"
+la var total_ANC_visits "Number of total ANC visits during the last pregnancyRECODE"
+la val total_ANC_visits total_ANC_visits
+
+ta total_ANC_visits,m
+
+**
+*Place of delivery of the last pregnancy 
+This is a classic "multiple response" question where respondents could choose more than one reason, and the responses were stored as a space-separated string of numeric codes (like 1 2 4 6 11 for a single observation).
+
+To clean and work with this type of data in Stata, the goal is to split the responses into separate dummy variables (1 = selected, 0 = not selected) for each possible reason (1 to 13) 
+
+
+gen B18_1  = regexm(" " + B18 + " ", " 1 ")
+gen B18_2  = regexm(" " + B18 + " ", " 2 ")
+gen B18_3  = regexm(" " + B18 + " ", " 3 ")
+gen B18_4  = regexm(" " + B18 + " ", " 4 ")
+gen B18_5  = regexm(" " + B18 + " ", " 5 ")
+gen B18_6  = regexm(" " + B18 + " ", " 6 ")
+gen B18_7  = regexm(" " + B18 + " ", " 7 ")
+gen B18_8  = regexm(" " + B18 + " ", " 8 ")
+gen B18_9  = regexm(" " + B18 + " ", " 9 ")
+gen B18_10 = regexm(" " + B18 + " ", " 10 ")
+gen B18_11 = regexm(" " + B18 + " ", " 11 ")
+gen B18_12 = regexm(" " + B18 + " ", " 12 ")
+gen B18_13 = regexm(" " + B18 + " ", " 13 ")
+
+
+
+--
+foreach x in 1 2 3 4 5 6 7 8 9 10 11 12 13 {
+    replace B18_`x' = 0 if missing(B18_`x') & !missing(B18)
+}
+
+
+----
+la def B18_1 0 "no" 1 "yes"
+la def B18_2 0 "no" 1 "yes"
+la def B18_3 0 "no" 1 "yes"
+la def B18_4 0 "no" 1 "yes"
+la def B18_5 0 "no" 1 "yes"
+la def B18_6 0 "no" 1 "yes"
+la def B18_7 0 "no" 1 "yes"
+la def B18_8 0 "no" 1 "yes"
+la def B18_9 0 "no" 1 "yes"
+la def B18_10 0 "no" 1 "yes"
+la def B18_11 0 "no" 1 "yes"
+la def B18_12 0 "no" 1 "yes"
+la def B18_13 0 "no" 1 "yes"
+
+
+--
+la val B18_1 B18_1
+la val B18_2 B18_2
+la val B18_3 B18_3
+la val B18_4 B18_4
+la val B18_5 B18_5
+la val B18_6 B18_6
+la val B18_7 B18_7
+la val B18_8 B18_8
+la val B18_9 B18_9
+la val B18_10 B18_10
+la val B18_11 B18_11
+la val B18_12 B18_12
+la val B18_13 B18_13
+
+--
+label variable B18_1 "Proximity to Healthcare Facilities"
+label variable B18_2 "Cost of Delivery Services"
+label variable B18_3 "Cultural Beliefs and Practices"
+label variable B18_4 "Perceived Quality of Care"
+label variable B18_5 "Previous Birth Experiences"
+label variable B18_6 "Availability of Skilled Birth Attendants"
+label variable B18_7 "Accessibility and Infrastructure"
+label variable B18_8 "Fear of Medical Interventions"
+label variable B18_9 "Religious Beliefs"
+label variable B18_10 "Influence of Family and Community"
+label variable B18_11 "Trust with Healthcare Providers"
+label variable B18_12 "Perceived Severity of Labour"
+label variable B18_13 "Influence of Family and Community"
+
+
+--
+tab1 B18_1 B18_2 B18_3 B18_4 B18_5 B18_6 B18_7 B18_8 B18_9 B18_10 B18_11 B18_12 B18_13 
+
+
+***How many years ago was your last delivery
+ta B19,m
+gen Numb_years_since_last_delivery=.
+replace Numb_years_since_last_delivery = 1 if inrange(B19, 0, 4)
+replace Numb_years_since_last_delivery = 2 if inrange(B19, 5, 9)
+replace Numb_years_since_last_delivery = 3 if inrange(B19, 10, 14)
+replace Numb_years_since_last_delivery = 4 if inrange(B19, 15, 19)
+replace Numb_years_since_last_delivery = 5 if inrange(B19, 20, 24)
+replace Numb_years_since_last_delivery = 6 if inrange(B19, 25, 29)
+replace Numb_years_since_last_delivery = 7 if inrange(B19, 30, 34)
+
+
+la def Numb_years_since_last_delivery 1 "0-4 years" 2 "5-9 years" 3 "10-14 years" 4 "15-19 years" 5 "20-24 years" 6 "25-29 years" 7 "30-34 years"
+la val Numb_years_since_last_delivery Numb_years_since_last_delivery
+la var Numb_years_since_last_delivery "Number of years since woman’s last delivery"
+
+ta Numb_years_since_last_delivery,m
+
+
+***Formal Education by background characteristics of reproductive age women
+ta age_group A3,row chi2
+ta residence A3,row chi2
+ta zone A3,row chi2
+ta LGA A3,row chi2
+
+***Highest completed level of education by background characteristics of reproductive age women
+ta age_group A4,row chi2
+ta residence A4,row chi2
+ta zone A4,row chi2
+ta LGA A4,row chi2
+
+
+***Husband's Occupation by background characteristics of reproductive age women
+ta age_group occ_cat,row chi2
+ta num_children_alive occ_cat,row chi2
+ta residence occ_cat,row chi2
+ta zone occ_cat,row chi2
+ta LGA occ_cat,row chi2
+
+
+***Age at first birth by background characteristics of reproductive age women
+ta age_group age_first_birth,row chi2
+ta num_children_alive age_first_birth,row chi2
+ta residence age_first_birth,row chi2
+ta zone age_first_birth,row chi2
+ta LGA age_first_birth,row chi2
+
+
+**Median age at first birth across background characteristics
+tabstat B1, by(age_group) stat(median) columns(statistics)
+tabstat B1, by(num_children_alive) stat(median) columns(statistics)
+tabstat B1, by(residence) stat(median) columns(statistics)
+tabstat B1, by(zone) stat(median) columns(statistics)
+tabstat B1, by(LGA) stat(median) columns(statistics)
+
+
+
+***Types of health workers attended to woman during labour
+la def B241 0 "no" 1 "yes"
+la def B242 0 "no" 1 "yes"
+la def B243 0 "no" 1 "yes"
+la def B244 0 "no" 1 "yes"
+
+la val B241 B241
+la val B242 B242
+la val B243 B243
+la val B244 B244
+
+la var B241 "Doctor at PHC Facility"
+la var B242 "Nurse/midwife"
+la var B243 "Community Health Officer (CHO)"
+la var B244 "Community Health Extension Worker (CHEW)"
+
+tab1 B241 B242 B243 B244
+
+******Respectful Maternity Care (RMC) Scale
+tab1 C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15
+
+*RMC Mean +/-SD
+su C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15
+
+***Total RMC Scale
+gen Total_RMC = C1 + C2 + C3 + C4 + C5 + C6 + C7 + C8 + C9 + C10 + C11 + C12 + C13 + C14 + C15
+
+ta Total_RMC,
+su Total_RMC
+
+gen friendly_RMC = C1 + C2 + C3 + C4 + C5 + C6 + C7
+gen abusefree_RMC = C8 + C9 + C10
+gen timely_RMC = C11 + C12 + C13
+gen nondiscriminatory_RMC = C14 + C15
+
+
+***Standardization of RMC Scale
+gen ReportedRMC *100
+
+egen AC1 = (mean(C1) - 1)/4 * 100
+
+****Factors influencing Choice of place of delivery****
+**Ever delivered in Health Facility
+*according to study area
+ta residence B7,row chi2
+ta zone B7,row chi2
+ta LGA B7,row chi2
+
+*according woman characterisitcs
+ta age_group B7,row chi2
+ta A3 B7,row chi2
+ta A5 B7,row chi2
+ta A6 B7,row chi2
+ta occ_cat B7,row chi2
+ta A8 B7,row chi2
+
+*according obstetrics profile
+ta age_first_birth B7,row chi2
+ta num_pregnancies_had2 B7,row chi2
+ta num_deliveries_had2 B7,row chi2
+ta num_children_alive B7,row chi2
+ta Birth_order2 B7,row chi2
+ta B10 B7,row chi2
+ta B11 B7,row chi2
+ta B16 B7,row chi2
+ta B20 B7,row chi2
+
+
+**Place of last delivery 
+*according to study area
+ta residence B17,row chi2
+ta zone B17,row chi2
+ta LGA B17,row chi2
+
+*according woman characterisitcs
+ta age_group B17,row chi2
+ta A3 B17,row chi2
+ta A5 B17,row chi2
+ta A6 B17,row chi2
+ta occ_cat B17,row chi2
+ta A8 B17,row chi2
+
+*according obstetrics profile
+ta age_first_birth B17,row chi2
+ta num_pregnancies_had2 B17,row chi2
+ta num_deliveries_had2 B17,row chi2
+ta num_children_alive B17,row chi2
+ta Birth_order2 B17,row chi2
+ta B10 B17,row chi2
+ta B11 B17,row chi2
+ta B16 B17,row chi2
+ta B20 B17,row chi2
+
+
+****************************************
+****************************************
+*Recode outcome: choice of place of delivery
+gen facility_delivery = .
+replace facility_delivery = 1 if inlist(B17, 1, 2)
+replace facility_delivery = 0 if inlist(B17, 3, 4, 5, 6)
+
+label define facility_label 0 "Non-facility delivery" 1 "Facility delivery"
+label values facility_delivery facility_label
+
+*Double-check the result
+tab B17 facility_delivery, missing
+ta facility_delivery
+
+---------------
+
+
+***Bivariate multilevel logistic regression
+--specifies that we're fitting a two-level (multilevel) model, where we are: 
+-Grouping individuals (women) within clusters, in this case LGA (Local Government Areas)
+-Allowing for a random intercept at the LGA level
+
+melogit facility_delivery i.age_group || LGA:, or
+melogit facility_delivery i.A3 || LGA:, or
+melogit facility_delivery i.A4 || LGA:, or
+melogit facility_delivery i.A5 || LGA:, or
+melogit facility_delivery i.A6 || LGA:, or
+melogit facility_delivery i.occ_cat || LGA:, or
+melogit facility_delivery i.A8 || LGA:, or
+melogit facility_delivery i.age_first_birth || LGA:, or
+melogit facility_delivery i.num_pregnancies_had2 || LGA:, or
+melogit facility_delivery i.num_deliveries_had2 || LGA:, or
+melogit facility_delivery i.num_children_alive || LGA:, or
+melogit facility_delivery i.Birth_order2 || LGA:, or
+melogit facility_delivery i.B10 || LGA:, or
+melogit facility_delivery i.B11 || LGA:, or
+melogit facility_delivery i.B16 || LGA:, or
+melogit facility_delivery i.B20 || LGA:, or
+
+melogit facility_delivery i.residence || LGA:, or
+melogit facility_delivery i.zone || LGA:, or
+... Note: mention that variables with p < 0.25 were retained for Model 2 or 4
+
+
+**Model 1 (Null Model)
+melogit facility_delivery || LGA:, or
+estimates store m1_null
+
+**Model 2 (Individual-level only)
+melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 || LGA:, or
+estimates store m2_individual
+
+*Model 3 (Community-level only)
+melogit facility_delivery i.residence i.zone || LGA:, or
+estimates store m3_community
+
+
+**Final multilevel logistic regression model (model 4)
+melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 i.residence i.zone || LGA:, or
+estimates store full
+
+*Compare models (AIC and BIC)
+estimates stats m1_null m2_individual m3_community full
+
+*Random effects diagnostics
+* Intraclass correlation
+estat icc
+
+* Median Odds Ratio (MOR)
+display exp(sqrt(2 * var(_cons)) * 0.6745)
+
+
+* Proportional change in variance (PCV)
+---- [You calculate PCV manually from variance components of models]
+
+***Notes for Writing:
+*You should describe the progression from null to full model, noting how variance drops (PCV), model fit improves (AIC/BIC), and how clustering at the LGA level contributes to delivery choices (ICC and MOR).
+
+*Cite ICC and MOR as measures of unobserved cluster-level heterogeneity.
+
+*PCV highlights how much of the between-cluster variance is explained by added variables.
+
+
+---
+*Multicollinearity check (for fixed effects)
+collin age_first_birth num_pregnancies_had2 ...
+
+
+
+
+
+
+
+
+
+
+
+***********RMC Tool*************
+**Generate the mean RMC percent within C1 through C15**
+gen rmc_C1percent = ((C1 - 1) / 4) * 100
+gen rmc_C2percent = ((C2 - 1) / 4) * 100
+gen rmc_C3percent = ((C3 - 1) / 4) * 100
+gen rmc_C4percent = ((C4 - 1) / 4) * 100
+gen rmc_C5percent = ((C5 - 1) / 4) * 100
+gen rmc_C6percent = ((C6 - 1) / 4) * 100
+gen rmc_C7percent = ((C7 - 1) / 4) * 100
+*
+gen rmc_C8percent = ((C8 - 1) / 4) * 100
+gen rmc_C9percent = ((C9 - 1) / 4) * 100
+gen rmc_C10percent = ((C10 - 1) / 4) * 100
+*
+gen rmc_C11percent = ((C11 - 1) / 4) * 100
+gen rmc_C12percent = ((C12 - 1) / 4) * 100
+gen rmc_C13percent = ((C13- 1) / 4) * 100
+*
+gen rmc_C14percent = ((C14- 1) / 4) * 100
+gen rmc_C15percent = ((C15- 1) / 4) * 100
+
+
+su rmc_C1percent-rmc_C15percent
+
+
+**Generate the OVERALL mean RMC score across C1 to C15
+egen rmc_mean = rowmean(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15)
+
+
+Convert mean to percentage score
+gen rmc_percent = ((rmc_mean - 1) / 4) * 100
+
+**********
+gen complete_rmc = .
+replace complete_rmc = 1 if rmc_nonmiss == 15
+replace complete_rmc = 2 if rmc_nonmiss >= 12 & rmc_nonmiss < 15
+replace complete_rmc = 3 if rmc_nonmiss >= 6 & rmc_nonmiss < 12
+
+
+label define rmc_levels 1 "All 15 answered" 2 "At least 12 answered" 3 "At least 6 answered"
+label values complete_rmc rmc_levels
+
+
+ta complete_rmc
+
+*************
+**Optional checks to confirm ALL 15 items were answered: Count number of non-missing RMC responses (C1 to C15)**
+egen rmc_nonmiss = rownonmiss(C1-C15)
+gen rmc_mean12 = .
+replace rmc_mean12 = rmc_mean if rmc_nonmiss >= 12
+gen rmc_percent12 = ((rmc_mean12 - 1)/4) * 100
+
+su rmc_percent if complete_rmc == 1
+
+
+***********OVERALL RMC Score Categories
+gen rmc_cat = .
+replace rmc_cat = 1 if rmc_percent < 50
+replace rmc_cat = 2 if rmc_percent >= 50 & rmc_percent < 75
+replace rmc_cat = 3 if rmc_percent >= 75
+
+label define rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values rmc_cat rmc_cat_lbl
+
+
+ta rmc_cat
+
+
+
+************GENERATING REPORTED RMC DOMAINS************
+***Friendly_RMC 
+**Generate the mean Friendly RMC score across C1 to C7
+egen friendly_rmc_mean = rowmean(C1 C2 C3 C4 C5 C6 C7)
+
+**Convert mean to percentage score
+gen friendly_rmc_percent = ((friendly_rmc_mean - 1) / 4) * 100
+
+***************Abuse-free_RMC 
+**Generate the mean Abuse-free care RMC score across C8 to C10
+egen abusefree_rmc_mean = rowmean(C8 C9 C10)
+
+**Convert mean to percentage score
+gen abusefree_rmc_percent = ((abusefree_rmc_mean - 1) / 4) * 100
+
+
+***************Timely care_RMC 
+**Generate the mean Timely care RMC score across C11 to C13
+egen timelycare_rmc_mean = rowmean(C11 C12 C13)
+
+**Convert mean to percentage score
+gen timelycare_rmc_percent = ((timelycare_rmc_mean - 1) / 4) * 100
+
+
+***************Non-discriminatory care_RMC 
+**Generate the mean Non-discriminatory care RMC score across C14 to C15
+egen nondiscriminatorycare_rmc_mean = rowmean(C14 C15)
+
+**Convert mean to percentage score
+gen ndcare_rmc_percent = ((nondiscriminatorycare_rmc_mean - 1) / 4) * 100
+
+
+su friendly_rmc_mean abusefree_rmc_mean timelycare_rmc_mean nondiscriminatorycare_rmc_mean
+
+******REPORTED MEAN PERCENT RMC DOMAINS*****
+
+tab1 friendly_rmc_percent abusefree_rmc_percent timelycare_rmc_percent ndcare_rmc_percent
+
+su friendly_rmc_percent abusefree_rmc_percent timelycare_rmc_percent ndcare_rmc_percent
+
+
+*******Intraclass correlation coefficients in Reported RMC Domains*****
+gen id = _n
+
+
+******Rename to a common stub
+rename friendly_rmc_percent rmc1
+rename abusefree_rmc_percent rmc2
+rename timelycare_rmc_percent rmc3
+rename ndcare_rmc_percent rmc4
+
+*****Reshape to long format
+reshape long rmc, i(id) j(component)
+
+
+****Label the components
+label define rmc_parts 1 "Friendly care" 2 "Abuse-free" 3 "Timely care" 4 "ND care"
+label values component rmc_parts
+
+
+***Run the ICC
+icc rmc id
+
+icc rmc_component id
+
+***Cronbach’s Alpha to confirm internal consistency:
+--Reshape back to wide format
+reshape wide rmc, i(id) j(component)
+
+alpha rmc1 rmc2 rmc3 rmc4
+
+
+********Optional: ICC using mixed model
+mixed rmc_component || id:
+estat icc
+
+
+
+icc friendly_rmc_percent abusefree_rmc_percent timelycare_rmc_percent ndcare_rmc_percent 
+
+
+***********RMC Domain Score Categories
+
+*1
+gen friendly_rmc_cat = .
+replace friendly_rmc_cat = 1 if friendly_rmc_percent >=0 & friendly_rmc_percent < 50
+replace friendly_rmc_cat = 2 if friendly_rmc_percent >= 50 & friendly_rmc_percent < 75
+replace friendly_rmc_cat = 3 if friendly_rmc_percent >= 75
+replace friendly_rmc_cat = . if B7 == 2
+
+label define friendly_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values friendly_rmc_cat rmc_cat_lbl
+
+ta friendly_rmc_cat
+
+*2
+gen abusefree_rmc_cat = .
+replace abusefree_rmc_cat = 1 if abusefree_rmc_percent >=0 & abusefree_rmc_percent < 50
+replace abusefree_rmc_cat = 2 if abusefree_rmc_percent >= 50 & abusefree_rmc_percent < 75
+replace abusefree_rmc_cat = 3 if abusefree_rmc_percent >= 75
+replace abusefree_rmc_cat = . if B7 == 2
+
+label define abusefree_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values abusefree_rmc_cat rmc_cat_lbl
+
+ta abusefree_rmc_cat
+
+*3
+gen timelycare_rmc_cat = .
+replace timelycare_rmc_cat = 1 if timelycare_rmc_percent >=0 & timelycare_rmc_percent < 50
+replace timelycare_rmc_cat = 2 if timelycare_rmc_percent >= 50 & timelycare_rmc_percent < 75
+replace timelycare_rmc_cat = 3 if timelycare_rmc_percent >= 75
+replace timelycare_rmc_cat = . if B7 == 2
+
+label define timelycare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values timelycare_rmc_cat rmc_cat_lbl
+
+ta timelycare_rmc_cat
+
+				
+*4
+gen ndcare_rmc_cat = .
+replace ndcare_rmc_cat = 1 if ndcare_rmc_percent >=0 & ndcare_rmc_percent < 50
+replace ndcare_rmc_cat = 2 if ndcare_rmc_percent >= 50 & ndcare_rmc_percent < 75
+replace ndcare_rmc_cat = 3 if ndcare_rmc_percent >= 75
+replace ndcare_rmc_cat = . if B7 == 2
+
+label define ndcare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values ndcare_rmc_cat rmc_cat_lbl
+
+ta ndcare_rmc_cat
+
+
+***Overall RMC
+replace rmc_cat = . if B7 == 2
+ta rmc_cat
+
+
+
+*******************************************
+*1
+gen friendly_cat = .
+replace friendly_cat = 1 if friendly_rmc_percent >=0 & friendly_rmc_percent < 50
+replace friendly_rmc_cat = 2 if friendly_rmc_percent >= 50 & friendly_rmc_percent < 75
+replace friendly_rmc_cat = 3 if friendly_rmc_percent >= 75
+replace friendly_rmc_cat = . if B7 == 2
+
+label define friendly_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values friendly_rmc_cat rmc_cat_lbl
+
+ta friendly_rmc_cat
+
+*2
+gen abusefree_rmc_cat = .
+replace abusefree_rmc_cat = 1 if abusefree_rmc_percent >=0 & abusefree_rmc_percent < 50
+replace abusefree_rmc_cat = 2 if abusefree_rmc_percent >= 50 & abusefree_rmc_percent < 75
+replace abusefree_rmc_cat = 3 if abusefree_rmc_percent >= 75
+replace abusefree_rmc_cat = . if B7 == 2
+
+label define abusefree_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values abusefree_rmc_cat rmc_cat_lbl
+
+ta abusefree_rmc_cat
+
+*3
+gen timelycare_rmc_cat = .
+replace timelycare_rmc_cat = 1 if timelycare_rmc_percent >=0 & timelycare_rmc_percent < 50
+replace timelycare_rmc_cat = 2 if timelycare_rmc_percent >= 50 & timelycare_rmc_percent < 75
+replace timelycare_rmc_cat = 3 if timelycare_rmc_percent >= 75
+replace timelycare_rmc_cat = . if B7 == 2
+
+label define timelycare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values timelycare_rmc_cat rmc_cat_lbl
+
+ta timelycare_rmc_cat
+
+				
+*4
+gen ndcare_rmc_cat = .
+replace ndcare_rmc_cat = 1 if ndcare_rmc_percent >=0 & ndcare_rmc_percent < 50
+replace ndcare_rmc_cat = 2 if ndcare_rmc_percent >= 50 & ndcare_rmc_percent < 75
+replace ndcare_rmc_cat = 3 if ndcare_rmc_percent >= 75
+replace ndcare_rmc_cat = . if B7 == 2
+
+label define ndcare_rmc_cat_lbl 1 "Low (<50%)" 2 "Moderate (50–74%)" 3 "High (≥75%)"
+label values ndcare_rmc_cat rmc_cat_lbl
+
+ta ndcare_rmc_cat
+
+
+***Overall RMC
+replace rmc_cat = . if B7 == 2
+ta rmc_cat
+*******************************************
+
+**************RMC Level received**************
+*according to study area*
+ta residence rmc_cat,row chi2
+ta zone rmc_cat,row chi2
+ta LGA rmc_cat,row chi2
+
+*according woman characterisitcs*
+ta age_group rmc_cat,row chi2
+ta A3 rmc_cat,row chi2
+ta A5 rmc_cat,row chi2
+ta A6 rmc_cat,row chi2
+ta occ_cat rmc_cat,row chi2
+ta A8 rmc_cat,row chi2
+
+*according obstetrics profile*
+ta age_first_birth rmc_cat,row chi2
+ta num_pregnancies_had2 rmc_cat,row chi2
+ta num_deliveries_had2 rmc_cat,row chi2
+ta num_children_alive rmc_cat,row chi2
+ta Birth_order2 rmc_cat,row chi2
+ta B10 rmc_cat,row chi2
+ta B11 rmc_cat,row chi2
+ta B16 rmc_cat,row chi2
+ta B20 rmc_cat,row chi2
+
+*******************************************************
+
+
+
+************Associated factors of RMC scores*************
+
+***Model Commands for Linear Regression Model**
+* Ensure categorical variables use first level as reference
+foreach var in residence zone LGA age_group A3 A5 A6 occ_cat A8 Birth_order2 B10 B11 B16 B20 {
+    char `var'[omit] 1
+}
+
+
+* Run the linear regression
+regress rmc_percent i.residence i.zone i.LGA  i.age_group i.A3 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20
+
+
+* Display coefficients with 95% CI and p-values -- 
+ssc install outreg2
+outreg2 using "rmc_linear_results.doc", replace ctitle("Linear Regression - RMC") dec(3)
+
+
+
+************Associated factors of RMC levels 1 *************
+--This model estimates the odds of receiving a better RMC [Moderate/High] vs Low RMC.
+
+* Run the binary logistics regression
+* Loop to get crude OR for each variable (categorical and continuous mixed)
+
+foreach var in residence age_group A3 A5 A6 occ_cat A8 age_first_birth num_pregnancies_had2 num_deliveries_had2 num_children_alive Birth_order2 B10 B11 B16 B20 {
+    logistic rmc_binary i.`var'
+    est store `var'
+}
+
+
+*multivariable (adjusted OR) model
+logistic rmc_binary i.residence i.zone i.LGA  i.age_group i.A3 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20, or
+
+
+*Export results
+outreg2 using "rmc_binary_logit.doc", replace ctitle("Binary Logistic Regression - RMC") dec(3) b(3) se star(* 0.05 ** 0.01 *** 0.001)
+
+
+
+
+************Associated factors of RMC levels 2 *************
+*Ordinal Logistic Regression*
+*Ordinal logistic regression models the cumulative odds of being in a higher category of the outcome. 
+
+
+ologit rmc_cat i.residence i.age_group i.A3 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20, or
+
+
+*This model estimates:
+The odds that a woman will experience at least Moderate vs Low RMC, and the odds of High vs Moderate or Low, assuming proportional odds.
+
+
+
+
+
+
+
+
+**********************************************
+RMC Study Narrative Analysis Report of Results
+
+My name is FEHINTOLA AKINTUNDE. I am a Ph.D student at the Department of Public Health, Adeleke University Ede, Osun State. The purpose of the study is to gather information about the current status of Respectful Maternity Care (RMC) and its impacts on women’s choices of place of childbirth and pregnancy outcomes in Osun State. 
+I have some tables I need you to analyse for me
+
+Take Note:
+Line by line narrative report of n (%)
+No bulleting
+Use academic writing style in British English
+REFRAIN from using robotic words like "nuanced"
+
+Questions?
+
+Friendly care
+1.Healthcare workers approached me in a kind manner (very nice and ready to help)
+2.Healthcare workers were friendly (pleasant) in their treatment
+3.Healthcare workers sounded positively/ encouraging on topics about pain and its relief
+4.Healthcare workers were concerned and empathic.
+5.Healthcare workers respected me as an individual
+6.Healthcare workers communicated to me in a language within my understanding
+7.Healthcare workers addressed me by my name
+
+Abuse-free care
+8.Healthcare workers responded to my needs in a professionally expected manner
+9.Healthcare workers hit me during delivery
+10.Healthcare workers yelled at me because I did not do what they wanted me to do
+
+Timely care
+11.I was not given prompt service and I waited for a long time.
+12.I was free to practice my cultural and religious traditions in the facility
+13.Problems in the health facility often delay their attending to their patients
+
+Non-discriminatory care
+14.Some healthcare workers mistreated me because of some of my personal characteristics. (for example, my age, my financial status).
+15.Some healthcare workers offended me and my companions due to my personal characteristics (for example, my age, my financial status).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Olaniyan\Dr, Fehintola PhD\Data Analysis\log using cleaningdata.log, replace.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 1 Aug 2025, 14:32:56
+
+{com}. **Model 1 (Null Model)
+
+. 
+. melogit facility_delivery || LGA:, or
+{res}{txt}
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-491.58816}  
+Iteration 1:{space 3}log likelihood = {res: -490.6665}  
+Iteration 2:{space 3}log likelihood = {res:-490.66561}  
+Iteration 3:{space 3}log likelihood = {res:-490.66561}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-496.69283}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-496.69283}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-490.07207}  
+Iteration 2:{space 3}log likelihood = {res:-489.11543}  
+Iteration 3:{space 3}log likelihood = {res:-489.03984}  
+Iteration 4:{space 3}log likelihood = {res:-489.01674}  
+Iteration 5:{space 3}log likelihood = {res:-489.01673}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       902
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        30
+{col 63}{txt}avg{col 67}={res}{col 69}      47.5
+{col 63}{txt}max{col 67}={res}{col 69}        61
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}0{txt}){col 67}={res}{col 70}        .
+{txt}Log likelihood = {res}-489.01673{col 49}{txt}Prob > chi2{col 67}={res}{col 73}     .
+{txt}{hline 18}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}facility_delivery{col 19}{c |}       Odds{col 31}   Std. Err.{col 43}      z{col 51}   P>|z|{col 59}     [95% Con{col 72}f. Interval]
+{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}_cons {c |}{col 19}{res}{space 2} 3.325885{col 31}{space 2} .3496828{col 42}{space 1}   11.43{col 51}{space 3}0.000{col 59}{space 4} 2.706526{col 72}{space 3} 4.086979
+{txt}{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA              {col 19}{txt}{c |}
+{space 8}var(_cons){c |}{col 19}{res}{space 2} .0863511{col 31}{space 2} .0694466{col 59}{space 4} .0178526{col 72}{space 3} .4176712
+{txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{txt}LR test vs. logistic model: {txt}{help j_chibar##|_new:chibar2(01) =}{res} 3.30{col 55}{txt}Prob >= chibar2 = {res}{col 73}0.0347
+
+{com}. 
+. estimates store m1_null
+
+. 
+. 
+. 
+. **Model 2 (Individual-level only)
+
+. 
+. melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 || LGA:, or
+{res}{txt}note: 5.age_first_birth != 0 predicts success perfectly
+      5.age_first_birth dropped and 8 obs not used
+
+note: 1.num_children_alive != 0 predicts success perfectly
+      1.num_children_alive dropped and 2 obs not used
+
+note: 0.Birth_order2 != 0 predicts success perfectly
+      0.Birth_order2 dropped and 2 obs not used
+
+note: 1.B20 != 1 predicts success perfectly
+      1.B20 dropped and 5 obs not used
+
+note: 1.A3 identifies no observations in the sample
+note: 2.A3 omitted because of collinearity
+note: 3.num_children_alive omitted because of collinearity
+note: 4.Birth_order2 omitted because of collinearity
+note: 2.B20 omitted because of collinearity
+note: 3.B20 omitted because of collinearity
+
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-277.42554}  
+Iteration 1:{space 3}log likelihood = {res:-270.53189}  
+Iteration 2:{space 3}log likelihood = {res: -270.3669}  
+Iteration 3:{space 3}log likelihood = {res:-270.36651}  
+Iteration 4:{space 3}log likelihood = {res:-270.36651}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-280.39808}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-280.39808}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-272.03963}  (not concave)
+Iteration 2:{space 3}log likelihood = {res:-270.68401}  
+Iteration 3:{space 3}log likelihood = {res:-270.38407}  
+Iteration 4:{space 3}log likelihood = {res:-270.38216}  (backed up)
+Iteration 5:{space 3}log likelihood = {res:-270.38122}  (backed up)
+Iteration 6:{space 3}log likelihood = {res:-270.38098}  (backed up)
+Iteration 7:{space 3}log likelihood = {res:-270.38086}  (backed up)
+Iteration 8:{space 3}log likelihood = {res: -270.3808}  (backed up)
+Iteration 9:{space 3}log likelihood = {res:-270.38077}  (backed up)
+Iteration 10:{space 2}log likelihood = {res:-270.38077}  (backed up)
+Iteration 11:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 12:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 13:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 14:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 15:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 16:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 17:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 18:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 19:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 20:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 21:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 22:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 23:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 24:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 25:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 26:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 27:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 28:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 29:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 30:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 31:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 32:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 33:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 34:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 35:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 36:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 37:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 38:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 39:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 40:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 41:{space 2}log likelihood = {res:-270.38076}  
+Iteration 42:{space 2}log likelihood = {res:-270.38075}  (not concave)
+Iteration 43:{space 2}log likelihood = {res:-270.38074}  (not concave)
+Iteration 44:{space 2}log likelihood = {res:-270.38074}  (not concave)
+Iteration 45:{space 2}log likelihood = {res:-270.38073}  
+Iteration 46:{space 2}log likelihood = {res:-270.38051}  (not concave)
+Iteration 47:{space 2}log likelihood = {res:-270.38048}  
+Iteration 48:{space 2}log likelihood = {res:-270.38005}  (not concave)
+Iteration 49:{space 2}log likelihood = {res:-270.37996}  (not concave)
+Iteration 50:{space 2}log likelihood = {res:-270.37969}  
+Iteration 51:{space 2}log likelihood = {res:-270.36651}  
+Iteration 52:{space 2}log likelihood = {res:-270.36651}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       692
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        22
+{col 63}{txt}avg{col 67}={res}{col 69}      36.4
+{col 63}{txt}max{col 67}={res}{col 69}        57
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}30{txt}){col 67}={res}{col 70}    98.08
+{txt}Log likelihood = {res}-270.36651{col 49}{txt}Prob > chi2{col 67}={res}{col 73}0.0000
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    facility_delivery{col 23}{c |} Odds Ratio{col 35}   Std. Err.{col 47}      z{col 55}   P>|z|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}age_group {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2}  1.90746{col 35}{space 2} 2.823926{col 46}{space 1}    0.44{col 55}{space 3}0.663{col 63}{space 4}  .104781{col 76}{space 3} 34.72391
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2}  .992545{col 35}{space 2} 1.421372{col 46}{space 1}   -0.01{col 55}{space 3}0.996{col 63}{space 4}   .05995{col 76}{space 3}  16.4328
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 1.891413{col 35}{space 2} 2.752004{col 46}{space 1}    0.44{col 55}{space 3}0.661{col 63}{space 4} .1092167{col 76}{space 3} 32.75547
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2} 1.937105{col 35}{space 2} 2.854781{col 46}{space 1}    0.45{col 55}{space 3}0.654{col 63}{space 4} .1078219{col 76}{space 3}  34.8016
+{txt}{space 15}40-44  {c |}{col 23}{res}{space 2} 1.502913{col 35}{space 2} 2.239585{col 46}{space 1}    0.27{col 55}{space 3}0.785{col 63}{space 4} .0810038{col 76}{space 3} 27.88449
+{txt}{space 15}45-49  {c |}{col 23}{res}{space 2} .9250444{col 35}{space 2} 1.393004{col 46}{space 1}   -0.05{col 55}{space 3}0.959{col 63}{space 4} .0483456{col 76}{space 3} 17.69979
+{txt}{space 21} {c |}
+{space 19}A3 {c |}
+{space 1}No formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 4}Formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 19}A4 {c |}
+{space 11}Secondary  {c |}{col 23}{res}{space 2} 1.730123{col 35}{space 2} .6965438{col 46}{space 1}    1.36{col 55}{space 3}0.173{col 63}{space 4} .7859324{col 76}{space 3} 3.808631
+{txt}{space 6}Post-secondary  {c |}{col 23}{res}{space 2} 4.061634{col 35}{space 2} 1.813473{col 46}{space 1}    3.14{col 55}{space 3}0.002{col 63}{space 4} 1.692969{col 76}{space 3} 9.744342
+{txt}{space 7}Post-tertiary  {c |}{col 23}{res}{space 2} 12.54948{col 35}{space 2}  10.7919{col 46}{space 1}    2.94{col 55}{space 3}0.003{col 63}{space 4} 2.326145{col 76}{space 3} 67.70408
+{txt}{space 21} {c |}
+{space 19}A5 {c |}
+{space 14}Single  {c |}{col 23}{res}{space 2} .8102222{col 35}{space 2} .8065293{col 46}{space 1}   -0.21{col 55}{space 3}0.833{col 63}{space 4} .1151549{col 76}{space 3} 5.700672
+{txt}{space 12}Divorced  {c |}{col 23}{res}{space 2} 1.075529{col 35}{space 2} 1.410965{col 46}{space 1}    0.06{col 55}{space 3}0.956{col 63}{space 4} .0822142{col 76}{space 3}  14.0701
+{txt}{space 21} {c |}
+{space 19}A6 {c |}
+{space 17}Ibo  {c |}{col 23}{res}{space 2} 1.541339{col 35}{space 2} .9479722{col 46}{space 1}    0.70{col 55}{space 3}0.482{col 63}{space 4} .4617236{col 76}{space 3}  5.14534
+{txt}{space 15}Hausa  {c |}{col 23}{res}{space 2} .3211193{col 35}{space 2} .4132863{col 46}{space 1}   -0.88{col 55}{space 3}0.377{col 63}{space 4} .0257724{col 76}{space 3} 4.001089
+{txt}{space 14}Others  {c |}{col 23}{res}{space 2} .2793019{col 35}{space 2} .2854184{col 46}{space 1}   -1.25{col 55}{space 3}0.212{col 63}{space 4} .0376905{col 76}{space 3} 2.069742
+{txt}{space 21} {c |}
+{space 14}occ_cat {c |}
+Self-employed/Entr~r  {c |}{col 23}{res}{space 2} 1.343367{col 35}{space 2} 1.140336{col 46}{space 1}    0.35{col 55}{space 3}0.728{col 63}{space 4} .2544724{col 76}{space 3} 7.091675
+{txt}Private/Professional  {c |}{col 23}{res}{space 2} 1.205529{col 35}{space 2} 1.068375{col 46}{space 1}    0.21{col 55}{space 3}0.833{col 63}{space 4} .2122352{col 76}{space 3} 6.847589
+{txt}{space 7}Civil Servant  {c |}{col 23}{res}{space 2} 1.577302{col 35}{space 2} 1.408983{col 46}{space 1}    0.51{col 55}{space 3}0.610{col 63}{space 4} .2738718{col 76}{space 3} 9.084105
+{txt}{space 21} {c |}
+{space 19}A8 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2}  .790456{col 35}{space 2} .1952562{col 46}{space 1}   -0.95{col 55}{space 3}0.341{col 63}{space 4} .4870979{col 76}{space 3} 1.282741
+{txt}{space 21} {c |}
+{space 6}age_first_birth {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2} .6991117{col 35}{space 2} .3548862{col 46}{space 1}   -0.71{col 55}{space 3}0.481{col 63}{space 4} .2584972{col 76}{space 3} 1.890764
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2}  .314377{col 35}{space 2}  .165693{col 46}{space 1}   -2.20{col 55}{space 3}0.028{col 63}{space 4} .1118982{col 76}{space 3} .8832389
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 2.186613{col 35}{space 2} 1.804246{col 46}{space 1}    0.95{col 55}{space 3}0.343{col 63}{space 4}  .433928{col 76}{space 3} 11.01859
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 1}num_pregnancies_had2 {c |}
+{space 8}multigravida  {c |}{col 23}{res}{space 2} .5759913{col 35}{space 2} .2897563{col 46}{space 1}   -1.10{col 55}{space 3}0.273{col 63}{space 4} .2148886{col 76}{space 3} 1.543898
+{txt}{space 21} {c |}
+{space 2}num_deliveries_had2 {c |}
+{space 9}multiparous  {c |}{col 23}{res}{space 2} .5979646{col 35}{space 2}  .501663{col 46}{space 1}   -0.61{col 55}{space 3}0.540{col 63}{space 4} .1154939{col 76}{space 3} 3.095935
+{txt}{space 21} {c |}
+{space 3}num_children_alive {c |}
+{space 10}none alive  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 17}1-4  {c |}{col 23}{res}{space 2} .6166499{col 35}{space 2} .3388707{col 46}{space 1}   -0.88{col 55}{space 3}0.379{col 63}{space 4} .2100263{col 76}{space 3} 1.810522
+{txt}{space 17}5-8  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 9}Birth_order2 {c |}
+{space 19}0  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 19}1  {c |}{col 23}{res}{space 2} 3.130488{col 35}{space 2} 3.100743{col 46}{space 1}    1.15{col 55}{space 3}0.249{col 63}{space 4} .4492604{col 76}{space 3} 21.81353
+{txt}{space 17}2-3  {c |}{col 23}{res}{space 2} 5.669294{col 35}{space 2} 4.153896{col 46}{space 1}    2.37{col 55}{space 3}0.018{col 63}{space 4} 1.348506{col 76}{space 3} 23.83444
+{txt}{space 17}4-5  {c |}{col 23}{res}{space 2} 3.786945{col 35}{space 2} 2.669914{col 46}{space 1}    1.89{col 55}{space 3}0.059{col 63}{space 4} .9509667{col 76}{space 3} 15.08039
+{txt}{space 18}6+  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 18}B10 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} 1.245868{col 35}{space 2} .4793149{col 46}{space 1}    0.57{col 55}{space 3}0.568{col 63}{space 4} .5861309{col 76}{space 3} 2.648192
+{txt}{space 21} {c |}
+{space 18}B11 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .0776922{col 35}{space 2} .0256187{col 46}{space 1}   -7.75{col 55}{space 3}0.000{col 63}{space 4} .0407096{col 76}{space 3} .1482716
+{txt}{space 21} {c |}
+{space 18}B16 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .6525924{col 35}{space 2} .2358958{col 46}{space 1}   -1.18{col 55}{space 3}0.238{col 63}{space 4} .3213321{col 76}{space 3} 1.325348
+{txt}{space 21} {c |}
+{space 18}B20 {c |}
+{space 9}Still-birth  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 1}Died few days after  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} 2.622321{col 35}{space 2} 5.057322{col 46}{space 1}    0.50{col 55}{space 3}0.617{col 63}{space 4}  .059853{col 76}{space 3} 114.8909
+{txt}{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA                  {col 23}{txt}{c |}
+{space 12}var(_cons){c |}{col 23}{res}{space 2} 1.95e-33{col 35}{space 2} 1.51e-17{col 63}{space 4}        .{col 76}{space 3}        .
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{p 0 6 2}Note: {res:_cons} estimates baseline odds (conditional on zero random effects){txt}.{p_end}
+{txt}LR test vs. logistic model: {txt}chi2({res}0{txt}) ={res} 0.00{col 59}{txt}Prob > chi2 ={res}{col 73}     .
+
+{txt}{p 0 6 4 79}Note: {help j_mixedlr##|_new:LR test is conservative} and provided only for reference.{p_end}
+
+{com}. 
+. estimates store m2_individual
+
+. 
+. 
+. 
+. *Model 3 (Community-level only)
+
+. 
+. melogit facility_delivery i.residence i.zone || LGA:, or
+{res}{txt}
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-483.64411}  
+Iteration 1:{space 3}log likelihood = {res: -482.8404}  
+Iteration 2:{space 3}log likelihood = {res:-482.83974}  
+Iteration 3:{space 3}log likelihood = {res:-482.83974}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-495.13438}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-495.13438}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-488.16952}  (not concave)
+Iteration 2:{space 3}log likelihood = {res:-485.41856}  (not concave)
+Iteration 3:{space 3}log likelihood = {res:-483.24749}  
+Iteration 4:{space 3}log likelihood = {res:-482.93132}  
+Iteration 5:{space 3}log likelihood = {res:-482.84354}  
+Iteration 6:{space 3}log likelihood = {res:-482.84099}  
+Iteration 7:{space 3}log likelihood = {res:-482.84002}  
+Iteration 8:{space 3}log likelihood = {res:-482.83996}  (backed up)
+Iteration 9:{space 3}log likelihood = {res:-482.83993}  (backed up)
+Iteration 10:{space 2}log likelihood = {res:-482.83992}  (backed up)
+Iteration 11:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 12:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 13:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 14:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 15:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 16:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 17:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 18:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 19:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 20:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 21:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 22:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 23:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 24:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 25:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 26:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 27:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 28:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 29:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 30:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 31:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 32:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 33:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 34:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 35:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 36:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 37:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 38:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 39:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 40:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 41:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 42:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 43:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 44:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 45:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 46:{space 2}log likelihood = {res: -482.8399}  (not concave)
+Iteration 47:{space 2}log likelihood = {res: -482.8399}  
+Iteration 48:{space 2}log likelihood = {res:-482.83989}  (not concave)
+Iteration 49:{space 2}log likelihood = {res:-482.83989}  
+Iteration 50:{space 2}log likelihood = {res:-482.83986}  
+Iteration 51:{space 2}log likelihood = {res:-482.83985}  (not concave)
+Iteration 52:{space 2}log likelihood = {res:-482.83983}  
+Iteration 53:{space 2}log likelihood = {res:-482.83974}  
+Iteration 54:{space 2}log likelihood = {res:-482.83974}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       902
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        30
+{col 63}{txt}avg{col 67}={res}{col 69}      47.5
+{col 63}{txt}max{col 67}={res}{col 69}        61
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}2{txt}){col 67}={res}{col 70}    15.11
+{txt}Log likelihood = {res}-482.83974{col 49}{txt}Prob > chi2{col 67}={res}{col 73}0.0005
+{txt}{hline 18}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}facility_delivery{col 19}{c |} Odds Ratio{col 31}   Std. Err.{col 43}      z{col 51}   P>|z|{col 59}     [95% Con{col 72}f. Interval]
+{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}residence {c |}
+{space 11}rural  {c |}{col 19}{res}{space 2} 1.330957{col 31}{space 2}  .468844{col 42}{space 1}    0.81{col 51}{space 3}0.417{col 59}{space 4} .6672965{col 72}{space 3}  2.65466
+{txt}{space 17} {c |}
+{space 13}zone {c |}
+{space 7}Osun East  {c |}{col 19}{res}{space 2} 2.356273{col 31}{space 2} .8071453{col 42}{space 1}    2.50{col 51}{space 3}0.012{col 59}{space 4} 1.204052{col 72}{space 3} 4.611117
+{txt}{space 12}_cons {c |}{col 19}{res}{space 2}  1.85523{col 31}{space 2} .6813908{col 42}{space 1}    1.68{col 51}{space 3}0.092{col 59}{space 4}  .903166{col 72}{space 3} 3.810904
+{txt}{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA              {col 19}{txt}{c |}
+{space 8}var(_cons){c |}{col 19}{res}{space 2} 1.18e-32{col 31}{space 2} 2.91e-17{col 59}{space 4}        .{col 72}{space 3}        .
+{txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{p 0 6 2}Note: {res:_cons} estimates baseline odds (conditional on zero random effects){txt}.{p_end}
+{txt}LR test vs. logistic model: {txt}chi2({res}0{txt}) ={res} 3.4e-13{col 59}{txt}Prob > chi2 ={res}{col 73}     .
+
+{txt}{p 0 6 4 79}Note: {help j_mixedlr##|_new:LR test is conservative} and provided only for reference.{p_end}
+
+{com}. 
+. estimates store m3_community
+
+. 
+. 
+. 
+. 
+. 
+. **Final multilevel logistic regression model (model 4)
+
+. 
+. melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 i.residence i.zone || LGA:, or
+{res}{txt}note: 5.age_first_birth != 0 predicts success perfectly
+      5.age_first_birth dropped and 8 obs not used
+
+note: 1.num_children_alive != 0 predicts success perfectly
+      1.num_children_alive dropped and 2 obs not used
+
+note: 0.Birth_order2 != 0 predicts success perfectly
+      0.Birth_order2 dropped and 2 obs not used
+
+note: 1.B20 != 1 predicts success perfectly
+      1.B20 dropped and 5 obs not used
+
+note: 1.A3 identifies no observations in the sample
+note: 2.A3 omitted because of collinearity
+note: 3.num_children_alive omitted because of collinearity
+note: 4.Birth_order2 omitted because of collinearity
+note: 2.B20 omitted because of collinearity
+note: 3.B20 omitted because of collinearity
+
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-276.74307}  
+Iteration 1:{space 3}log likelihood = {res:-269.59962}  
+Iteration 2:{space 3}log likelihood = {res:-269.43346}  
+Iteration 3:{space 3}log likelihood = {res:-269.43303}  
+Iteration 4:{space 3}log likelihood = {res:-269.43303}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-279.60277}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-279.60277}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-271.30994}  (not concave)
+Iteration 2:{space 3}log likelihood = {res:-269.94265}  
+Iteration 3:{space 3}log likelihood = {res:-269.67449}  
+Iteration 4:{space 3}log likelihood = {res:-269.55615}  
+Iteration 5:{space 3}log likelihood = {res:-269.47431}  
+Iteration 6:{space 3}log likelihood = {res:-269.45855}  (backed up)
+Iteration 7:{space 3}log likelihood = {res:-269.45109}  (backed up)
+Iteration 8:{space 3}log likelihood = {res:-269.45086}  (backed up)
+Iteration 9:{space 3}log likelihood = {res:-269.45075}  (backed up)
+Iteration 10:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 11:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 12:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 13:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 14:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 15:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 16:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 17:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 18:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 19:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 20:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 21:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 22:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 23:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 24:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 25:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 26:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 27:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 28:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 29:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 30:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 31:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 32:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 33:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 34:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 35:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 36:{space 2}log likelihood = {res:-269.45075}  
+Iteration 37:{space 2}log likelihood = {res:-269.45074}  (not concave)
+Iteration 38:{space 2}log likelihood = {res:-269.45074}  (not concave)
+Iteration 39:{space 2}log likelihood = {res:-269.45074}  
+Iteration 40:{space 2}log likelihood = {res: -269.4506}  (backed up)
+Iteration 41:{space 2}log likelihood = {res:-269.45059}  (backed up)
+Iteration 42:{space 2}log likelihood = {res:-269.45031}  (backed up)
+Iteration 43:{space 2}log likelihood = {res:-269.45004}  (not concave)
+Iteration 44:{space 2}log likelihood = {res:-269.44999}  (not concave)
+Iteration 45:{space 2}log likelihood = {res:-269.44982}  
+Iteration 46:{space 2}log likelihood = {res:-269.44588}  (not concave)
+Iteration 47:{space 2}log likelihood = {res:-269.44579}  
+Iteration 48:{space 2}log likelihood = {res:-269.43303}  
+Iteration 49:{space 2}log likelihood = {res:-269.43303}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       692
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        22
+{col 63}{txt}avg{col 67}={res}{col 69}      36.4
+{col 63}{txt}max{col 67}={res}{col 69}        57
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}32{txt}){col 67}={res}{col 70}    98.68
+{txt}Log likelihood = {res}-269.43303{col 49}{txt}Prob > chi2{col 67}={res}{col 73}0.0000
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    facility_delivery{col 23}{c |} Odds Ratio{col 35}   Std. Err.{col 47}      z{col 55}   P>|z|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}age_group {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2}  1.80745{col 35}{space 2} 2.694605{col 46}{space 1}    0.40{col 55}{space 3}0.691{col 63}{space 4} .0972898{col 76}{space 3}  33.5788
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2} .9364796{col 35}{space 2} 1.348661{col 46}{space 1}   -0.05{col 55}{space 3}0.964{col 63}{space 4} .0556736{col 76}{space 3} 15.75241
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 1.765434{col 35}{space 2} 2.583799{col 46}{space 1}    0.39{col 55}{space 3}0.698{col 63}{space 4} .1002481{col 76}{space 3} 31.09043
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2} 1.752247{col 35}{space 2} 2.600429{col 46}{space 1}    0.38{col 55}{space 3}0.705{col 63}{space 4} .0955798{col 76}{space 3} 32.12362
+{txt}{space 15}40-44  {c |}{col 23}{res}{space 2} 1.339116{col 35}{space 2} 2.008827{col 46}{space 1}    0.19{col 55}{space 3}0.846{col 63}{space 4} .0707812{col 76}{space 3} 25.33484
+{txt}{space 15}45-49  {c |}{col 23}{res}{space 2} .8272591{col 35}{space 2} 1.253624{col 46}{space 1}   -0.13{col 55}{space 3}0.900{col 63}{space 4} .0424361{col 76}{space 3}  16.1268
+{txt}{space 21} {c |}
+{space 19}A3 {c |}
+{space 1}No formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 4}Formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 19}A4 {c |}
+{space 11}Secondary  {c |}{col 23}{res}{space 2} 1.706614{col 35}{space 2} .6880684{col 46}{space 1}    1.33{col 55}{space 3}0.185{col 63}{space 4} .7743723{col 76}{space 3}  3.76115
+{txt}{space 6}Post-secondary  {c |}{col 23}{res}{space 2} 3.871259{col 35}{space 2}  1.73513{col 46}{space 1}    3.02{col 55}{space 3}0.003{col 63}{space 4} 1.608187{col 76}{space 3} 9.318966
+{txt}{space 7}Post-tertiary  {c |}{col 23}{res}{space 2} 12.70042{col 35}{space 2} 10.88734{col 46}{space 1}    2.96{col 55}{space 3}0.003{col 63}{space 4} 2.366642{col 76}{space 3} 68.15597
+{txt}{space 21} {c |}
+{space 19}A5 {c |}
+{space 14}Single  {c |}{col 23}{res}{space 2} .7934666{col 35}{space 2} .7827709{col 46}{space 1}   -0.23{col 55}{space 3}0.815{col 63}{space 4} .1147628{col 76}{space 3} 5.486006
+{txt}{space 12}Divorced  {c |}{col 23}{res}{space 2}  1.18005{col 35}{space 2} 1.554559{col 46}{space 1}    0.13{col 55}{space 3}0.900{col 63}{space 4} .0892393{col 76}{space 3} 15.60432
+{txt}{space 21} {c |}
+{space 19}A6 {c |}
+{space 17}Ibo  {c |}{col 23}{res}{space 2} 1.546963{col 35}{space 2} .9729892{col 46}{space 1}    0.69{col 55}{space 3}0.488{col 63}{space 4} .4509223{col 76}{space 3} 5.307108
+{txt}{space 15}Hausa  {c |}{col 23}{res}{space 2} .2573416{col 35}{space 2} .3299547{col 46}{space 1}   -1.06{col 55}{space 3}0.290{col 63}{space 4} .0208511{col 76}{space 3} 3.176082
+{txt}{space 14}Others  {c |}{col 23}{res}{space 2} .2612011{col 35}{space 2} .2638403{col 46}{space 1}   -1.33{col 55}{space 3}0.184{col 63}{space 4} .0360722{col 76}{space 3} 1.891373
+{txt}{space 21} {c |}
+{space 14}occ_cat {c |}
+Self-employed/Entr~r  {c |}{col 23}{res}{space 2} 1.399489{col 35}{space 2}  1.18623{col 46}{space 1}    0.40{col 55}{space 3}0.692{col 63}{space 4} .2657525{col 76}{space 3} 7.369905
+{txt}Private/Professional  {c |}{col 23}{res}{space 2} 1.279752{col 35}{space 2} 1.132792{col 46}{space 1}    0.28{col 55}{space 3}0.781{col 63}{space 4} .2257732{col 76}{space 3} 7.254035
+{txt}{space 7}Civil Servant  {c |}{col 23}{res}{space 2} 1.635445{col 35}{space 2} 1.458545{col 46}{space 1}    0.55{col 55}{space 3}0.581{col 63}{space 4} .2847774{col 76}{space 3} 9.392178
+{txt}{space 21} {c |}
+{space 19}A8 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .7825458{col 35}{space 2} .1953543{col 46}{space 1}   -0.98{col 55}{space 3}0.326{col 63}{space 4} .4797513{col 76}{space 3} 1.276448
+{txt}{space 21} {c |}
+{space 6}age_first_birth {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2} .7083374{col 35}{space 2} .3551581{col 46}{space 1}   -0.69{col 55}{space 3}0.492{col 63}{space 4} .2651248{col 76}{space 3} 1.892474
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2} .3117778{col 35}{space 2} .1623206{col 46}{space 1}   -2.24{col 55}{space 3}0.025{col 63}{space 4} .1123789{col 76}{space 3}  .864979
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 2.237317{col 35}{space 2} 1.836501{col 46}{space 1}    0.98{col 55}{space 3}0.327{col 63}{space 4} .4477328{col 76}{space 3} 11.17985
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 1}num_pregnancies_had2 {c |}
+{space 8}multigravida  {c |}{col 23}{res}{space 2} .5396622{col 35}{space 2} .2751297{col 46}{space 1}   -1.21{col 55}{space 3}0.226{col 63}{space 4} .1986844{col 76}{space 3} 1.465818
+{txt}{space 21} {c |}
+{space 2}num_deliveries_had2 {c |}
+{space 9}multiparous  {c |}{col 23}{res}{space 2} .6318038{col 35}{space 2} .5326956{col 46}{space 1}   -0.54{col 55}{space 3}0.586{col 63}{space 4} .1210333{col 76}{space 3} 3.298068
+{txt}{space 21} {c |}
+{space 3}num_children_alive {c |}
+{space 10}none alive  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 17}1-4  {c |}{col 23}{res}{space 2} .6496418{col 35}{space 2} .3592693{col 46}{space 1}   -0.78{col 55}{space 3}0.435{col 63}{space 4} .2197539{col 76}{space 3} 1.920486
+{txt}{space 17}5-8  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 9}Birth_order2 {c |}
+{space 19}0  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 19}1  {c |}{col 23}{res}{space 2}  2.84156{col 35}{space 2} 2.833889{col 46}{space 1}    1.05{col 55}{space 3}0.295{col 63}{space 4} .4023956{col 76}{space 3} 20.06599
+{txt}{space 17}2-3  {c |}{col 23}{res}{space 2} 5.254886{col 35}{space 2} 3.879727{col 46}{space 1}    2.25{col 55}{space 3}0.025{col 63}{space 4} 1.236272{col 76}{space 3} 22.33637
+{txt}{space 17}4-5  {c |}{col 23}{res}{space 2}  3.54732{col 35}{space 2}  2.51992{col 46}{space 1}    1.78{col 55}{space 3}0.075{col 63}{space 4} .8815154{col 76}{space 3} 14.27483
+{txt}{space 18}6+  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 18}B10 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} 1.202933{col 35}{space 2} .4636992{col 46}{space 1}    0.48{col 55}{space 3}0.632{col 63}{space 4} .5651001{col 76}{space 3} 2.560692
+{txt}{space 21} {c |}
+{space 18}B11 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .0802407{col 35}{space 2} .0266424{col 46}{space 1}   -7.60{col 55}{space 3}0.000{col 63}{space 4} .0418571{col 76}{space 3} .1538225
+{txt}{space 21} {c |}
+{space 18}B16 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .5826867{col 35}{space 2} .2182957{col 46}{space 1}   -1.44{col 55}{space 3}0.149{col 63}{space 4} .2796044{col 76}{space 3} 1.214301
+{txt}{space 21} {c |}
+{space 18}B20 {c |}
+{space 9}Still-birth  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 1}Died few days after  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 12}residence {c |}
+{space 15}rural  {c |}{col 23}{res}{space 2} 1.338409{col 35}{space 2} .5522767{col 46}{space 1}    0.71{col 55}{space 3}0.480{col 63}{space 4} .5961452{col 76}{space 3} 3.004871
+{txt}{space 21} {c |}
+{space 17}zone {c |}
+{space 11}Osun East  {c |}{col 23}{res}{space 2} 1.693108{col 35}{space 2}   .72221{col 46}{space 1}    1.23{col 55}{space 3}0.217{col 63}{space 4} .7338331{col 76}{space 3} 3.906359
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 2.092995{col 35}{space 2} 4.189987{col 46}{space 1}    0.37{col 55}{space 3}0.712{col 63}{space 4} .0413751{col 76}{space 3} 105.8758
+{txt}{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA                  {col 23}{txt}{c |}
+{space 12}var(_cons){c |}{col 23}{res}{space 2} 1.13e-35{col 35}{space 2} 8.24e-19{col 63}{space 4}        .{col 76}{space 3}        .
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{p 0 6 2}Note: {res:_cons} estimates baseline odds (conditional on zero random effects){txt}.{p_end}
+{txt}LR test vs. logistic model: {txt}chi2({res}0{txt}) ={res} 0.00{col 59}{txt}Prob > chi2 ={res}{col 73}     .
+
+{txt}{p 0 6 4 79}Note: {help j_mixedlr##|_new:LR test is conservative} and provided only for reference.{p_end}
+
+{com}. 
+. estimates store full
+
+. *Compare models (AIC and BIC)
+
+. 
+. estimates stats m1_null m2_individual m3_community full
+
+Akaike's information criterion and Bayesian information criterion
+
+{txt}{hline 13}{c TT}{hline 63}
+       Model {c |}        Obs  ll(null)  ll(model)      df         AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:{stata estimates replay m1_null:m1_null}}{col 14}{c |}{res}{col 16}       902{col 27}        .{col 38}-489.0167{col 49}     2{col 58} 982.0335{col 69} 991.6427
+{txt}{ralign 12:{stata estimates replay m2_individual:m2_individ~l}}{col 14}{c |}{res}{col 16}       692{col 27}        .{col 38}-270.3665{col 49}    31{col 58}  602.733{col 69} 743.4602
+{txt}{ralign 12:{stata estimates replay m3_community:m3_community}}{col 14}{c |}{res}{col 16}       902{col 27}        .{col 38}-482.8397{col 49}     3{col 58} 971.6795{col 69} 986.0933
+{txt}{ralign 12:{stata estimates replay full:full}}{col 14}{c |}{res}{col 16}       692{col 27}        .{col 38} -269.433{col 49}    33{col 58} 604.8661{col 69} 754.6724
+{txt}{hline 13}{c BT}{hline 63}
+{p 15 21 2}
+Note: N=Obs used in calculating BIC; see {helpb bic_note:[R] BIC note}.
+{p_end}
+
+{com}. *Random effects diagnostics
+
+. 
+. * Intraclass correlation
+
+. 
+. estat icc
+
+{txt}Residual intraclass correlation
+
+{res}{col 1}{text}{hline 29}{c TT}{hline 12}{hline 12}{hline 12}{hline 12}
+{col 1}{text}                       Level{col 30}{c |}        ICC{col 43}  Std. Err.{col 55}    [95% Conf. Interval]
+{res}{col 1}{text}{hline 29}{c +}{hline 12}{hline 12}{hline 12}{hline 12}
+{col 1}{text}                         LGA{col 30}{c |}{result}{space 2} 3.42e-36{col 43}{space 1} 2.51e-19{col 55}{space 3}        .{col 67}{space 3}        1
+{col 1}{text}{hline 29}{c BT}{hline 12}{hline 12}{hline 12}{hline 12}
+{res}
+{com}. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. 
+. 
+. **ICC for model comparison in multilevel logistics regression modelling**
+
+. 
+. * Null Model (Model 1)
+
+. 
+. estimates restore m1_null
+{txt}(results {stata estimates replay m1_null:m1_null} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.91
+
+. 
+. display 0.91 / (0.91 + 3.29)
+{res}.21666667
+
+{com}. 
+. 
+. 
+. * Model 2
+
+. 
+. estimates restore m2_individual
+{txt}(results {stata estimates replay m2_individual:m2_individual} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.65
+
+. 
+. display 0.65 / (0.65 + 3.29)
+{res}.16497462
+
+{com}. 
+. 
+. 
+. * Model 3
+
+. 
+. estimates restore m3_community
+{txt}(results {stata estimates replay m3_community:m3_community} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.72
+
+. 
+. display 0.72 / (0.72 + 3.29)
+{res}.17955112
+
+{com}. 
+. 
+. 
+. * Model 4
+
+. 
+. estimates restore full
+{txt}(results {stata estimates replay full:full} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.54
+
+. 
+. display 0.54 / (0.54 + 3.29)
+{res}.14099217
+
+{com}. **Model 1 (Null Model)
+
+. 
+. melogit facility_delivery || LGA:, or
+{res}{txt}
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-491.58816}  
+Iteration 1:{space 3}log likelihood = {res: -490.6665}  
+Iteration 2:{space 3}log likelihood = {res:-490.66561}  
+Iteration 3:{space 3}log likelihood = {res:-490.66561}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-496.69283}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-496.69283}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-490.07207}  
+Iteration 2:{space 3}log likelihood = {res:-489.11543}  
+Iteration 3:{space 3}log likelihood = {res:-489.03984}  
+Iteration 4:{space 3}log likelihood = {res:-489.01674}  
+Iteration 5:{space 3}log likelihood = {res:-489.01673}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       902
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        30
+{col 63}{txt}avg{col 67}={res}{col 69}      47.5
+{col 63}{txt}max{col 67}={res}{col 69}        61
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}0{txt}){col 67}={res}{col 70}        .
+{txt}Log likelihood = {res}-489.01673{col 49}{txt}Prob > chi2{col 67}={res}{col 73}     .
+{txt}{hline 18}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}facility_delivery{col 19}{c |}       Odds{col 31}   Std. Err.{col 43}      z{col 51}   P>|z|{col 59}     [95% Con{col 72}f. Interval]
+{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}_cons {c |}{col 19}{res}{space 2} 3.325885{col 31}{space 2} .3496828{col 42}{space 1}   11.43{col 51}{space 3}0.000{col 59}{space 4} 2.706526{col 72}{space 3} 4.086979
+{txt}{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA              {col 19}{txt}{c |}
+{space 8}var(_cons){c |}{col 19}{res}{space 2} .0863511{col 31}{space 2} .0694466{col 59}{space 4} .0178526{col 72}{space 3} .4176712
+{txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{txt}LR test vs. logistic model: {txt}{help j_chibar##|_new:chibar2(01) =}{res} 3.30{col 55}{txt}Prob >= chibar2 = {res}{col 73}0.0347
+
+{com}. 
+. estimates store m1_null
+
+. 
+. 
+. 
+. **Model 2 (Individual-level only)
+
+. 
+. melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 || LGA:, or
+{res}{txt}note: 5.age_first_birth != 0 predicts success perfectly
+      5.age_first_birth dropped and 8 obs not used
+
+note: 1.num_children_alive != 0 predicts success perfectly
+      1.num_children_alive dropped and 2 obs not used
+
+note: 0.Birth_order2 != 0 predicts success perfectly
+      0.Birth_order2 dropped and 2 obs not used
+
+note: 1.B20 != 1 predicts success perfectly
+      1.B20 dropped and 5 obs not used
+
+note: 1.A3 identifies no observations in the sample
+note: 2.A3 omitted because of collinearity
+note: 3.num_children_alive omitted because of collinearity
+note: 4.Birth_order2 omitted because of collinearity
+note: 2.B20 omitted because of collinearity
+note: 3.B20 omitted because of collinearity
+
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-277.42554}  
+Iteration 1:{space 3}log likelihood = {res:-270.53189}  
+Iteration 2:{space 3}log likelihood = {res: -270.3669}  
+Iteration 3:{space 3}log likelihood = {res:-270.36651}  
+Iteration 4:{space 3}log likelihood = {res:-270.36651}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-280.39808}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-280.39808}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-272.03963}  (not concave)
+Iteration 2:{space 3}log likelihood = {res:-270.68401}  
+Iteration 3:{space 3}log likelihood = {res:-270.38407}  
+Iteration 4:{space 3}log likelihood = {res:-270.38216}  (backed up)
+Iteration 5:{space 3}log likelihood = {res:-270.38122}  (backed up)
+Iteration 6:{space 3}log likelihood = {res:-270.38098}  (backed up)
+Iteration 7:{space 3}log likelihood = {res:-270.38086}  (backed up)
+Iteration 8:{space 3}log likelihood = {res: -270.3808}  (backed up)
+Iteration 9:{space 3}log likelihood = {res:-270.38077}  (backed up)
+Iteration 10:{space 2}log likelihood = {res:-270.38077}  (backed up)
+Iteration 11:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 12:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 13:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 14:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 15:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 16:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 17:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 18:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 19:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 20:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 21:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 22:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 23:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 24:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 25:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 26:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 27:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 28:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 29:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 30:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 31:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 32:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 33:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 34:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 35:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 36:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 37:{space 2}log likelihood = {res:-270.38076}  (backed up)
+Iteration 38:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 39:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 40:{space 2}log likelihood = {res:-270.38076}  (not concave)
+Iteration 41:{space 2}log likelihood = {res:-270.38076}  
+Iteration 42:{space 2}log likelihood = {res:-270.38075}  (not concave)
+Iteration 43:{space 2}log likelihood = {res:-270.38074}  (not concave)
+Iteration 44:{space 2}log likelihood = {res:-270.38074}  (not concave)
+Iteration 45:{space 2}log likelihood = {res:-270.38073}  
+Iteration 46:{space 2}log likelihood = {res:-270.38051}  (not concave)
+Iteration 47:{space 2}log likelihood = {res:-270.38048}  
+Iteration 48:{space 2}log likelihood = {res:-270.38005}  (not concave)
+Iteration 49:{space 2}log likelihood = {res:-270.37996}  (not concave)
+Iteration 50:{space 2}log likelihood = {res:-270.37969}  
+Iteration 51:{space 2}log likelihood = {res:-270.36651}  
+Iteration 52:{space 2}log likelihood = {res:-270.36651}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       692
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        22
+{col 63}{txt}avg{col 67}={res}{col 69}      36.4
+{col 63}{txt}max{col 67}={res}{col 69}        57
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}30{txt}){col 67}={res}{col 70}    98.08
+{txt}Log likelihood = {res}-270.36651{col 49}{txt}Prob > chi2{col 67}={res}{col 73}0.0000
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    facility_delivery{col 23}{c |} Odds Ratio{col 35}   Std. Err.{col 47}      z{col 55}   P>|z|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}age_group {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2}  1.90746{col 35}{space 2} 2.823926{col 46}{space 1}    0.44{col 55}{space 3}0.663{col 63}{space 4}  .104781{col 76}{space 3} 34.72391
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2}  .992545{col 35}{space 2} 1.421372{col 46}{space 1}   -0.01{col 55}{space 3}0.996{col 63}{space 4}   .05995{col 76}{space 3}  16.4328
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 1.891413{col 35}{space 2} 2.752004{col 46}{space 1}    0.44{col 55}{space 3}0.661{col 63}{space 4} .1092167{col 76}{space 3} 32.75547
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2} 1.937105{col 35}{space 2} 2.854781{col 46}{space 1}    0.45{col 55}{space 3}0.654{col 63}{space 4} .1078219{col 76}{space 3}  34.8016
+{txt}{space 15}40-44  {c |}{col 23}{res}{space 2} 1.502913{col 35}{space 2} 2.239585{col 46}{space 1}    0.27{col 55}{space 3}0.785{col 63}{space 4} .0810038{col 76}{space 3} 27.88449
+{txt}{space 15}45-49  {c |}{col 23}{res}{space 2} .9250444{col 35}{space 2} 1.393004{col 46}{space 1}   -0.05{col 55}{space 3}0.959{col 63}{space 4} .0483456{col 76}{space 3} 17.69979
+{txt}{space 21} {c |}
+{space 19}A3 {c |}
+{space 1}No formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 4}Formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 19}A4 {c |}
+{space 11}Secondary  {c |}{col 23}{res}{space 2} 1.730123{col 35}{space 2} .6965438{col 46}{space 1}    1.36{col 55}{space 3}0.173{col 63}{space 4} .7859324{col 76}{space 3} 3.808631
+{txt}{space 6}Post-secondary  {c |}{col 23}{res}{space 2} 4.061634{col 35}{space 2} 1.813473{col 46}{space 1}    3.14{col 55}{space 3}0.002{col 63}{space 4} 1.692969{col 76}{space 3} 9.744342
+{txt}{space 7}Post-tertiary  {c |}{col 23}{res}{space 2} 12.54948{col 35}{space 2}  10.7919{col 46}{space 1}    2.94{col 55}{space 3}0.003{col 63}{space 4} 2.326145{col 76}{space 3} 67.70408
+{txt}{space 21} {c |}
+{space 19}A5 {c |}
+{space 14}Single  {c |}{col 23}{res}{space 2} .8102222{col 35}{space 2} .8065293{col 46}{space 1}   -0.21{col 55}{space 3}0.833{col 63}{space 4} .1151549{col 76}{space 3} 5.700672
+{txt}{space 12}Divorced  {c |}{col 23}{res}{space 2} 1.075529{col 35}{space 2} 1.410965{col 46}{space 1}    0.06{col 55}{space 3}0.956{col 63}{space 4} .0822142{col 76}{space 3}  14.0701
+{txt}{space 21} {c |}
+{space 19}A6 {c |}
+{space 17}Ibo  {c |}{col 23}{res}{space 2} 1.541339{col 35}{space 2} .9479722{col 46}{space 1}    0.70{col 55}{space 3}0.482{col 63}{space 4} .4617236{col 76}{space 3}  5.14534
+{txt}{space 15}Hausa  {c |}{col 23}{res}{space 2} .3211193{col 35}{space 2} .4132863{col 46}{space 1}   -0.88{col 55}{space 3}0.377{col 63}{space 4} .0257724{col 76}{space 3} 4.001089
+{txt}{space 14}Others  {c |}{col 23}{res}{space 2} .2793019{col 35}{space 2} .2854184{col 46}{space 1}   -1.25{col 55}{space 3}0.212{col 63}{space 4} .0376905{col 76}{space 3} 2.069742
+{txt}{space 21} {c |}
+{space 14}occ_cat {c |}
+Self-employed/Entr~r  {c |}{col 23}{res}{space 2} 1.343367{col 35}{space 2} 1.140336{col 46}{space 1}    0.35{col 55}{space 3}0.728{col 63}{space 4} .2544724{col 76}{space 3} 7.091675
+{txt}Private/Professional  {c |}{col 23}{res}{space 2} 1.205529{col 35}{space 2} 1.068375{col 46}{space 1}    0.21{col 55}{space 3}0.833{col 63}{space 4} .2122352{col 76}{space 3} 6.847589
+{txt}{space 7}Civil Servant  {c |}{col 23}{res}{space 2} 1.577302{col 35}{space 2} 1.408983{col 46}{space 1}    0.51{col 55}{space 3}0.610{col 63}{space 4} .2738718{col 76}{space 3} 9.084105
+{txt}{space 21} {c |}
+{space 19}A8 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2}  .790456{col 35}{space 2} .1952562{col 46}{space 1}   -0.95{col 55}{space 3}0.341{col 63}{space 4} .4870979{col 76}{space 3} 1.282741
+{txt}{space 21} {c |}
+{space 6}age_first_birth {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2} .6991117{col 35}{space 2} .3548862{col 46}{space 1}   -0.71{col 55}{space 3}0.481{col 63}{space 4} .2584972{col 76}{space 3} 1.890764
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2}  .314377{col 35}{space 2}  .165693{col 46}{space 1}   -2.20{col 55}{space 3}0.028{col 63}{space 4} .1118982{col 76}{space 3} .8832389
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 2.186613{col 35}{space 2} 1.804246{col 46}{space 1}    0.95{col 55}{space 3}0.343{col 63}{space 4}  .433928{col 76}{space 3} 11.01859
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 1}num_pregnancies_had2 {c |}
+{space 8}multigravida  {c |}{col 23}{res}{space 2} .5759913{col 35}{space 2} .2897563{col 46}{space 1}   -1.10{col 55}{space 3}0.273{col 63}{space 4} .2148886{col 76}{space 3} 1.543898
+{txt}{space 21} {c |}
+{space 2}num_deliveries_had2 {c |}
+{space 9}multiparous  {c |}{col 23}{res}{space 2} .5979646{col 35}{space 2}  .501663{col 46}{space 1}   -0.61{col 55}{space 3}0.540{col 63}{space 4} .1154939{col 76}{space 3} 3.095935
+{txt}{space 21} {c |}
+{space 3}num_children_alive {c |}
+{space 10}none alive  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 17}1-4  {c |}{col 23}{res}{space 2} .6166499{col 35}{space 2} .3388707{col 46}{space 1}   -0.88{col 55}{space 3}0.379{col 63}{space 4} .2100263{col 76}{space 3} 1.810522
+{txt}{space 17}5-8  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 9}Birth_order2 {c |}
+{space 19}0  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 19}1  {c |}{col 23}{res}{space 2} 3.130488{col 35}{space 2} 3.100743{col 46}{space 1}    1.15{col 55}{space 3}0.249{col 63}{space 4} .4492604{col 76}{space 3} 21.81353
+{txt}{space 17}2-3  {c |}{col 23}{res}{space 2} 5.669294{col 35}{space 2} 4.153896{col 46}{space 1}    2.37{col 55}{space 3}0.018{col 63}{space 4} 1.348506{col 76}{space 3} 23.83444
+{txt}{space 17}4-5  {c |}{col 23}{res}{space 2} 3.786945{col 35}{space 2} 2.669914{col 46}{space 1}    1.89{col 55}{space 3}0.059{col 63}{space 4} .9509667{col 76}{space 3} 15.08039
+{txt}{space 18}6+  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 18}B10 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} 1.245868{col 35}{space 2} .4793149{col 46}{space 1}    0.57{col 55}{space 3}0.568{col 63}{space 4} .5861309{col 76}{space 3} 2.648192
+{txt}{space 21} {c |}
+{space 18}B11 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .0776922{col 35}{space 2} .0256187{col 46}{space 1}   -7.75{col 55}{space 3}0.000{col 63}{space 4} .0407096{col 76}{space 3} .1482716
+{txt}{space 21} {c |}
+{space 18}B16 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .6525924{col 35}{space 2} .2358958{col 46}{space 1}   -1.18{col 55}{space 3}0.238{col 63}{space 4} .3213321{col 76}{space 3} 1.325348
+{txt}{space 21} {c |}
+{space 18}B20 {c |}
+{space 9}Still-birth  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 1}Died few days after  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} 2.622321{col 35}{space 2} 5.057322{col 46}{space 1}    0.50{col 55}{space 3}0.617{col 63}{space 4}  .059853{col 76}{space 3} 114.8909
+{txt}{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA                  {col 23}{txt}{c |}
+{space 12}var(_cons){c |}{col 23}{res}{space 2} 1.95e-33{col 35}{space 2} 1.51e-17{col 63}{space 4}        .{col 76}{space 3}        .
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{p 0 6 2}Note: {res:_cons} estimates baseline odds (conditional on zero random effects){txt}.{p_end}
+{txt}LR test vs. logistic model: {txt}chi2({res}0{txt}) ={res} 0.00{col 59}{txt}Prob > chi2 ={res}{col 73}     .
+
+{txt}{p 0 6 4 79}Note: {help j_mixedlr##|_new:LR test is conservative} and provided only for reference.{p_end}
+
+{com}. 
+. estimates store m2_individual
+
+. 
+. 
+. 
+. *Model 3 (Community-level only)
+
+. 
+. melogit facility_delivery i.residence i.zone || LGA:, or
+{res}{txt}
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-483.64411}  
+Iteration 1:{space 3}log likelihood = {res: -482.8404}  
+Iteration 2:{space 3}log likelihood = {res:-482.83974}  
+Iteration 3:{space 3}log likelihood = {res:-482.83974}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-495.13438}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-495.13438}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-488.16952}  (not concave)
+Iteration 2:{space 3}log likelihood = {res:-485.41856}  (not concave)
+Iteration 3:{space 3}log likelihood = {res:-483.24749}  
+Iteration 4:{space 3}log likelihood = {res:-482.93132}  
+Iteration 5:{space 3}log likelihood = {res:-482.84354}  
+Iteration 6:{space 3}log likelihood = {res:-482.84099}  
+Iteration 7:{space 3}log likelihood = {res:-482.84002}  
+Iteration 8:{space 3}log likelihood = {res:-482.83996}  (backed up)
+Iteration 9:{space 3}log likelihood = {res:-482.83993}  (backed up)
+Iteration 10:{space 2}log likelihood = {res:-482.83992}  (backed up)
+Iteration 11:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 12:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 13:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 14:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 15:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 16:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 17:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 18:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 19:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 20:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 21:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 22:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 23:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 24:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 25:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 26:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 27:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 28:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 29:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 30:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 31:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 32:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 33:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 34:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 35:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 36:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 37:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 38:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 39:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 40:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 41:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 42:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 43:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 44:{space 2}log likelihood = {res:-482.83991}  (not concave)
+Iteration 45:{space 2}log likelihood = {res:-482.83991}  (backed up)
+Iteration 46:{space 2}log likelihood = {res: -482.8399}  (not concave)
+Iteration 47:{space 2}log likelihood = {res: -482.8399}  
+Iteration 48:{space 2}log likelihood = {res:-482.83989}  (not concave)
+Iteration 49:{space 2}log likelihood = {res:-482.83989}  
+Iteration 50:{space 2}log likelihood = {res:-482.83986}  
+Iteration 51:{space 2}log likelihood = {res:-482.83985}  (not concave)
+Iteration 52:{space 2}log likelihood = {res:-482.83983}  
+Iteration 53:{space 2}log likelihood = {res:-482.83974}  
+Iteration 54:{space 2}log likelihood = {res:-482.83974}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       902
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        30
+{col 63}{txt}avg{col 67}={res}{col 69}      47.5
+{col 63}{txt}max{col 67}={res}{col 69}        61
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}2{txt}){col 67}={res}{col 70}    15.11
+{txt}Log likelihood = {res}-482.83974{col 49}{txt}Prob > chi2{col 67}={res}{col 73}0.0005
+{txt}{hline 18}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}facility_delivery{col 19}{c |} Odds Ratio{col 31}   Std. Err.{col 43}      z{col 51}   P>|z|{col 59}     [95% Con{col 72}f. Interval]
+{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}residence {c |}
+{space 11}rural  {c |}{col 19}{res}{space 2} 1.330957{col 31}{space 2}  .468844{col 42}{space 1}    0.81{col 51}{space 3}0.417{col 59}{space 4} .6672965{col 72}{space 3}  2.65466
+{txt}{space 17} {c |}
+{space 13}zone {c |}
+{space 7}Osun East  {c |}{col 19}{res}{space 2} 2.356273{col 31}{space 2} .8071453{col 42}{space 1}    2.50{col 51}{space 3}0.012{col 59}{space 4} 1.204052{col 72}{space 3} 4.611117
+{txt}{space 12}_cons {c |}{col 19}{res}{space 2}  1.85523{col 31}{space 2} .6813908{col 42}{space 1}    1.68{col 51}{space 3}0.092{col 59}{space 4}  .903166{col 72}{space 3} 3.810904
+{txt}{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA              {col 19}{txt}{c |}
+{space 8}var(_cons){c |}{col 19}{res}{space 2} 1.18e-32{col 31}{space 2} 2.91e-17{col 59}{space 4}        .{col 72}{space 3}        .
+{txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{p 0 6 2}Note: {res:_cons} estimates baseline odds (conditional on zero random effects){txt}.{p_end}
+{txt}LR test vs. logistic model: {txt}chi2({res}0{txt}) ={res} 3.4e-13{col 59}{txt}Prob > chi2 ={res}{col 73}     .
+
+{txt}{p 0 6 4 79}Note: {help j_mixedlr##|_new:LR test is conservative} and provided only for reference.{p_end}
+
+{com}. 
+. estimates store m3_community
+
+. 
+. 
+. 
+. 
+. 
+. **Final multilevel logistic regression model (model 4)
+
+. 
+. melogit facility_delivery i.age_group i.A3 i.A4 i.A5 i.A6 i.occ_cat i.A8 i.age_first_birth i.num_pregnancies_had2 i.num_deliveries_had2 i.num_children_alive i.Birth_order2 i.B10 i.B11 i.B16 i.B20 i.residence i.zone || LGA:, or
+{res}{txt}note: 5.age_first_birth != 0 predicts success perfectly
+      5.age_first_birth dropped and 8 obs not used
+
+note: 1.num_children_alive != 0 predicts success perfectly
+      1.num_children_alive dropped and 2 obs not used
+
+note: 0.Birth_order2 != 0 predicts success perfectly
+      0.Birth_order2 dropped and 2 obs not used
+
+note: 1.B20 != 1 predicts success perfectly
+      1.B20 dropped and 5 obs not used
+
+note: 1.A3 identifies no observations in the sample
+note: 2.A3 omitted because of collinearity
+note: 3.num_children_alive omitted because of collinearity
+note: 4.Birth_order2 omitted because of collinearity
+note: 2.B20 omitted because of collinearity
+note: 3.B20 omitted because of collinearity
+
+Fitting fixed-effects model:
+
+Iteration 0:{space 3}log likelihood = {res:-276.74307}  
+Iteration 1:{space 3}log likelihood = {res:-269.59962}  
+Iteration 2:{space 3}log likelihood = {res:-269.43346}  
+Iteration 3:{space 3}log likelihood = {res:-269.43303}  
+Iteration 4:{space 3}log likelihood = {res:-269.43303}  
+
+Refining starting values:
+
+Grid node 0:{space 3}log likelihood = {res:-279.60277}
+
+Fitting full model:
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res:-279.60277}  (not concave)
+Iteration 1:{space 3}log likelihood = {res:-271.30994}  (not concave)
+Iteration 2:{space 3}log likelihood = {res:-269.94265}  
+Iteration 3:{space 3}log likelihood = {res:-269.67449}  
+Iteration 4:{space 3}log likelihood = {res:-269.55615}  
+Iteration 5:{space 3}log likelihood = {res:-269.47431}  
+Iteration 6:{space 3}log likelihood = {res:-269.45855}  (backed up)
+Iteration 7:{space 3}log likelihood = {res:-269.45109}  (backed up)
+Iteration 8:{space 3}log likelihood = {res:-269.45086}  (backed up)
+Iteration 9:{space 3}log likelihood = {res:-269.45075}  (backed up)
+Iteration 10:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 11:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 12:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 13:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 14:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 15:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 16:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 17:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 18:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 19:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 20:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 21:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 22:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 23:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 24:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 25:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 26:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 27:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 28:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 29:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 30:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 31:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 32:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 33:{space 2}log likelihood = {res:-269.45075}  (backed up)
+Iteration 34:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 35:{space 2}log likelihood = {res:-269.45075}  (not concave)
+Iteration 36:{space 2}log likelihood = {res:-269.45075}  
+Iteration 37:{space 2}log likelihood = {res:-269.45074}  (not concave)
+Iteration 38:{space 2}log likelihood = {res:-269.45074}  (not concave)
+Iteration 39:{space 2}log likelihood = {res:-269.45074}  
+Iteration 40:{space 2}log likelihood = {res: -269.4506}  (backed up)
+Iteration 41:{space 2}log likelihood = {res:-269.45059}  (backed up)
+Iteration 42:{space 2}log likelihood = {res:-269.45031}  (backed up)
+Iteration 43:{space 2}log likelihood = {res:-269.45004}  (not concave)
+Iteration 44:{space 2}log likelihood = {res:-269.44999}  (not concave)
+Iteration 45:{space 2}log likelihood = {res:-269.44982}  
+Iteration 46:{space 2}log likelihood = {res:-269.44588}  (not concave)
+Iteration 47:{space 2}log likelihood = {res:-269.44579}  
+Iteration 48:{space 2}log likelihood = {res:-269.43303}  
+Iteration 49:{space 2}log likelihood = {res:-269.43303}  
+{res}
+{txt}Mixed-effects logistic regression{col 49}{txt}Number of obs{col 67}={res}{col 69}       692
+{txt}Group variable: {col 29}{res}LGA{col 49}{txt}Number of groups{col 67}={res}{col 69}        19
+
+{col 49}{txt}Obs per group:
+{col 63}{txt}min{col 67}={res}{col 69}        22
+{col 63}{txt}avg{col 67}={res}{col 69}      36.4
+{col 63}{txt}max{col 67}={res}{col 69}        57
+
+{txt}Integration method: {col 21}{res}mvaghermite{col 49}{txt}Integration pts.{col 67}={col 78}{res}7
+
+{col 49}{txt}Wald chi2({res}32{txt}){col 67}={res}{col 70}    98.68
+{txt}Log likelihood = {res}-269.43303{col 49}{txt}Prob > chi2{col 67}={res}{col 73}0.0000
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    facility_delivery{col 23}{c |} Odds Ratio{col 35}   Std. Err.{col 47}      z{col 55}   P>|z|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}age_group {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2}  1.80745{col 35}{space 2} 2.694605{col 46}{space 1}    0.40{col 55}{space 3}0.691{col 63}{space 4} .0972898{col 76}{space 3}  33.5788
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2} .9364796{col 35}{space 2} 1.348661{col 46}{space 1}   -0.05{col 55}{space 3}0.964{col 63}{space 4} .0556736{col 76}{space 3} 15.75241
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 1.765434{col 35}{space 2} 2.583799{col 46}{space 1}    0.39{col 55}{space 3}0.698{col 63}{space 4} .1002481{col 76}{space 3} 31.09043
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2} 1.752247{col 35}{space 2} 2.600429{col 46}{space 1}    0.38{col 55}{space 3}0.705{col 63}{space 4} .0955798{col 76}{space 3} 32.12362
+{txt}{space 15}40-44  {c |}{col 23}{res}{space 2} 1.339116{col 35}{space 2} 2.008827{col 46}{space 1}    0.19{col 55}{space 3}0.846{col 63}{space 4} .0707812{col 76}{space 3} 25.33484
+{txt}{space 15}45-49  {c |}{col 23}{res}{space 2} .8272591{col 35}{space 2} 1.253624{col 46}{space 1}   -0.13{col 55}{space 3}0.900{col 63}{space 4} .0424361{col 76}{space 3}  16.1268
+{txt}{space 21} {c |}
+{space 19}A3 {c |}
+{space 1}No formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 4}Formal education  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 19}A4 {c |}
+{space 11}Secondary  {c |}{col 23}{res}{space 2} 1.706614{col 35}{space 2} .6880684{col 46}{space 1}    1.33{col 55}{space 3}0.185{col 63}{space 4} .7743723{col 76}{space 3}  3.76115
+{txt}{space 6}Post-secondary  {c |}{col 23}{res}{space 2} 3.871259{col 35}{space 2}  1.73513{col 46}{space 1}    3.02{col 55}{space 3}0.003{col 63}{space 4} 1.608187{col 76}{space 3} 9.318966
+{txt}{space 7}Post-tertiary  {c |}{col 23}{res}{space 2} 12.70042{col 35}{space 2} 10.88734{col 46}{space 1}    2.96{col 55}{space 3}0.003{col 63}{space 4} 2.366642{col 76}{space 3} 68.15597
+{txt}{space 21} {c |}
+{space 19}A5 {c |}
+{space 14}Single  {c |}{col 23}{res}{space 2} .7934666{col 35}{space 2} .7827709{col 46}{space 1}   -0.23{col 55}{space 3}0.815{col 63}{space 4} .1147628{col 76}{space 3} 5.486006
+{txt}{space 12}Divorced  {c |}{col 23}{res}{space 2}  1.18005{col 35}{space 2} 1.554559{col 46}{space 1}    0.13{col 55}{space 3}0.900{col 63}{space 4} .0892393{col 76}{space 3} 15.60432
+{txt}{space 21} {c |}
+{space 19}A6 {c |}
+{space 17}Ibo  {c |}{col 23}{res}{space 2} 1.546963{col 35}{space 2} .9729892{col 46}{space 1}    0.69{col 55}{space 3}0.488{col 63}{space 4} .4509223{col 76}{space 3} 5.307108
+{txt}{space 15}Hausa  {c |}{col 23}{res}{space 2} .2573416{col 35}{space 2} .3299547{col 46}{space 1}   -1.06{col 55}{space 3}0.290{col 63}{space 4} .0208511{col 76}{space 3} 3.176082
+{txt}{space 14}Others  {c |}{col 23}{res}{space 2} .2612011{col 35}{space 2} .2638403{col 46}{space 1}   -1.33{col 55}{space 3}0.184{col 63}{space 4} .0360722{col 76}{space 3} 1.891373
+{txt}{space 21} {c |}
+{space 14}occ_cat {c |}
+Self-employed/Entr~r  {c |}{col 23}{res}{space 2} 1.399489{col 35}{space 2}  1.18623{col 46}{space 1}    0.40{col 55}{space 3}0.692{col 63}{space 4} .2657525{col 76}{space 3} 7.369905
+{txt}Private/Professional  {c |}{col 23}{res}{space 2} 1.279752{col 35}{space 2} 1.132792{col 46}{space 1}    0.28{col 55}{space 3}0.781{col 63}{space 4} .2257732{col 76}{space 3} 7.254035
+{txt}{space 7}Civil Servant  {c |}{col 23}{res}{space 2} 1.635445{col 35}{space 2} 1.458545{col 46}{space 1}    0.55{col 55}{space 3}0.581{col 63}{space 4} .2847774{col 76}{space 3} 9.392178
+{txt}{space 21} {c |}
+{space 19}A8 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .7825458{col 35}{space 2} .1953543{col 46}{space 1}   -0.98{col 55}{space 3}0.326{col 63}{space 4} .4797513{col 76}{space 3} 1.276448
+{txt}{space 21} {c |}
+{space 6}age_first_birth {c |}
+{space 15}20-24  {c |}{col 23}{res}{space 2} .7083374{col 35}{space 2} .3551581{col 46}{space 1}   -0.69{col 55}{space 3}0.492{col 63}{space 4} .2651248{col 76}{space 3} 1.892474
+{txt}{space 15}25-29  {c |}{col 23}{res}{space 2} .3117778{col 35}{space 2} .1623206{col 46}{space 1}   -2.24{col 55}{space 3}0.025{col 63}{space 4} .1123789{col 76}{space 3}  .864979
+{txt}{space 15}30-34  {c |}{col 23}{res}{space 2} 2.237317{col 35}{space 2} 1.836501{col 46}{space 1}    0.98{col 55}{space 3}0.327{col 63}{space 4} .4477328{col 76}{space 3} 11.17985
+{txt}{space 15}35-39  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 1}num_pregnancies_had2 {c |}
+{space 8}multigravida  {c |}{col 23}{res}{space 2} .5396622{col 35}{space 2} .2751297{col 46}{space 1}   -1.21{col 55}{space 3}0.226{col 63}{space 4} .1986844{col 76}{space 3} 1.465818
+{txt}{space 21} {c |}
+{space 2}num_deliveries_had2 {c |}
+{space 9}multiparous  {c |}{col 23}{res}{space 2} .6318038{col 35}{space 2} .5326956{col 46}{space 1}   -0.54{col 55}{space 3}0.586{col 63}{space 4} .1210333{col 76}{space 3} 3.298068
+{txt}{space 21} {c |}
+{space 3}num_children_alive {c |}
+{space 10}none alive  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 17}1-4  {c |}{col 23}{res}{space 2} .6496418{col 35}{space 2} .3592693{col 46}{space 1}   -0.78{col 55}{space 3}0.435{col 63}{space 4} .2197539{col 76}{space 3} 1.920486
+{txt}{space 17}5-8  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 9}Birth_order2 {c |}
+{space 19}0  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 19}1  {c |}{col 23}{res}{space 2}  2.84156{col 35}{space 2} 2.833889{col 46}{space 1}    1.05{col 55}{space 3}0.295{col 63}{space 4} .4023956{col 76}{space 3} 20.06599
+{txt}{space 17}2-3  {c |}{col 23}{res}{space 2} 5.254886{col 35}{space 2} 3.879727{col 46}{space 1}    2.25{col 55}{space 3}0.025{col 63}{space 4} 1.236272{col 76}{space 3} 22.33637
+{txt}{space 17}4-5  {c |}{col 23}{res}{space 2}  3.54732{col 35}{space 2}  2.51992{col 46}{space 1}    1.78{col 55}{space 3}0.075{col 63}{space 4} .8815154{col 76}{space 3} 14.27483
+{txt}{space 18}6+  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (omitted)
+{space 21} {c |}
+{space 18}B10 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} 1.202933{col 35}{space 2} .4636992{col 46}{space 1}    0.48{col 55}{space 3}0.632{col 63}{space 4} .5651001{col 76}{space 3} 2.560692
+{txt}{space 21} {c |}
+{space 18}B11 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .0802407{col 35}{space 2} .0266424{col 46}{space 1}   -7.60{col 55}{space 3}0.000{col 63}{space 4} .0418571{col 76}{space 3} .1538225
+{txt}{space 21} {c |}
+{space 18}B16 {c |}
+{space 18}No  {c |}{col 23}{res}{space 2} .5826867{col 35}{space 2} .2182957{col 46}{space 1}   -1.44{col 55}{space 3}0.149{col 63}{space 4} .2796044{col 76}{space 3} 1.214301
+{txt}{space 21} {c |}
+{space 18}B20 {c |}
+{space 9}Still-birth  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 1}Died few days after  {c |}{col 23}{res}{space 2}        1{col 35}{txt}  (empty)
+{space 21} {c |}
+{space 12}residence {c |}
+{space 15}rural  {c |}{col 23}{res}{space 2} 1.338409{col 35}{space 2} .5522767{col 46}{space 1}    0.71{col 55}{space 3}0.480{col 63}{space 4} .5961452{col 76}{space 3} 3.004871
+{txt}{space 21} {c |}
+{space 17}zone {c |}
+{space 11}Osun East  {c |}{col 23}{res}{space 2} 1.693108{col 35}{space 2}   .72221{col 46}{space 1}    1.23{col 55}{space 3}0.217{col 63}{space 4} .7338331{col 76}{space 3} 3.906359
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 2.092995{col 35}{space 2} 4.189987{col 46}{space 1}    0.37{col 55}{space 3}0.712{col 63}{space 4} .0413751{col 76}{space 3} 105.8758
+{txt}{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}LGA                  {col 23}{txt}{c |}
+{space 12}var(_cons){c |}{col 23}{res}{space 2} 1.13e-35{col 35}{space 2} 8.24e-19{col 63}{space 4}        .{col 76}{space 3}        .
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: {help eform_option:Estimates are transformed} only in the first equation.{p_end}
+{p 0 6 2}Note: {res:_cons} estimates baseline odds (conditional on zero random effects){txt}.{p_end}
+{txt}LR test vs. logistic model: {txt}chi2({res}0{txt}) ={res} 0.00{col 59}{txt}Prob > chi2 ={res}{col 73}     .
+
+{txt}{p 0 6 4 79}Note: {help j_mixedlr##|_new:LR test is conservative} and provided only for reference.{p_end}
+
+{com}. 
+. estimates store m4_full
+
+. * Null Model (Model 1)
+
+. 
+. estimates restore m1_null
+{txt}(results {stata estimates replay m1_null:m1_null} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.91
+
+. 
+. display 0.91 / (0.91 + 3.29)
+{res}.21666667
+
+{com}. 
+. 
+. 
+. * Model 2
+
+. 
+. estimates restore m2_individual
+{txt}(results {stata estimates replay m2_individual:m2_individual} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.65
+
+. 
+. display 0.65 / (0.65 + 3.29)
+{res}.16497462
+
+{com}. 
+. 
+. 
+. * Model 3
+
+. 
+. estimates restore m3_community
+{txt}(results {stata estimates replay m3_community:m3_community} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.72
+
+. 
+. display 0.72 / (0.72 + 3.29)
+{res}.17955112
+
+{com}. 
+. 
+. 
+. * Model 4
+
+. 
+. estimates restore m4_full
+{txt}(results {stata estimates replay m4_full:m4_full} are active now)
+
+{com}. 
+. estat variance
+{err}{bf:estat} {bf:variance} not valid
+{txt}{search r(321), local:r(321);}
+
+{com}. 
+. * Suppose var(_cons) = 0.54
+
+. 
+. display 0.54 / (0.54 + 3.29)
+{res}.14099217
+
+{com}. ***CORRECTION***
+
+. 
+. *****Compute ICC for Each Model:
+
+. 
+. * Null model (Model 1)
+
+. 
+. local m1_var = 0.086
+
+. 
+. display "Model 1 ICC = " %6.3f (`m1_var' / (`m1_var' + 3.29))
+{res}Model 1 ICC =  0.025
+
+{com}. 
+. 
+. 
+. * Model 2 (Individual-level variables)
+
+. 
+. local m2_var = 1.95e-33
+
+. 
+. display "Model 2 ICC = " %6.3f (`m2_var' / (`m2_var' + 3.29))
+{res}Model 2 ICC =  0.000
+
+{com}. 
+. 
+. 
+. * Model 3 (Community-level variables)
+
+. 
+. local m3_var = 1.18e-32
+
+. 
+. display "Model 3 ICC = " %6.3f (`m3_var' / (`m3_var' + 3.29))
+{res}Model 3 ICC =  0.000
+
+{com}. 
+. 
+. 
+. * Model 4 (Full model)
+
+. 
+. local m4_var = 1.13e-35
+
+. 
+. display "Model 4 ICC = " %6.3f (`m4_var' / (`m4_var' + 3.29))
+{res}Model 4 ICC =  0.000
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Olaniyan\Dr, Fehintola PhD\Data Analysis\log using cleaningdata.log, replace.txt
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 1 Aug 2025, 15:17:41
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Olaniyan\Dr, Fehintola PhD\Data Analysis\log using cleaningdata.log, replace.txt
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 1 Aug 2025, 15:17:49
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Olaniyan\Dr, Fehintola PhD\Data Analysis\log using cleaningdata.log, replace.txt
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 1 Aug 2025, 15:18:05
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
